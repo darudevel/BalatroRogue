@@ -8,15 +8,21 @@
 #define FILAS 3
 #define COLS 3
 
-typedef struct {
+typedef struct
+{
     int x, y, w, h;
-    int centroX, centroY;
+    int sectorX, sectorY;
 } Habitacion;
 
+// Marcos: MostrarMatriz y NumeroAleatorio creo que no deberian de ir aca, pero no se donde mas ponerlo xd
+void MostrarMatriz(char[ANCHO_INICIAL][ALTO_INICIAL]);
+
 // daru: posiblemente cambiemos todas estas firmas porque todavia no hicimos consenso de como hacer la estructura de juego y todo eso jeee
-void inicializarMapa(char **mapa);
-void generarNivel(char **mapa);
-void generarHabitacion(char **mapa, Habitacion h);
-void conectarHabitaciones(char **mapa, Habitacion h1, Habitacion h2);
+void inicializarMapa(char[ANCHO_INICIAL][ALTO_INICIAL]);
+void generarNivel(char[ANCHO_INICIAL][ALTO_INICIAL]);
+void generarHabitacion(char[ANCHO_INICIAL][ALTO_INICIAL], Habitacion);
+void conectarHabitaciones(char[ANCHO_INICIAL][ALTO_INICIAL], Habitacion, Habitacion);
+
+int NumeroAleatorio(int, int);
 
 #endif // MAPA_H_INCLUDED

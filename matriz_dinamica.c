@@ -1,81 +1,40 @@
 #include "headers/matriz_dinamica.h"
 
-char** CrearMatrizChar(size_t filas, size_t columnas)
+void** crearMatriz(int fil, int col, size_t tamElem)
 {
-    char** Matriz;
+    void** mat = malloc(sizeof(void*) * fil);
 
-    Matriz = malloc(sizeof(char*)*filas);
-    if(!Matriz)
+    if(!mat)
     {
-        free(Matriz);
         return NULL;
     }
 
-    for(size_t i=0; i<filas; i++)
+    void** ult = mat + fil - 1;
+
+    for(void** i = mat; i <= ult; i++)
     {
-        *(Matriz+i) = malloc(sizeof(char)*columnas);
-        if(!(*(Matriz+i)))
+        *i = malloc(tamElem * col);
+
+        if(!*i)
         {
-            for(i; i>0; i--)
-            {
-                free(*(Matriz+i));
-            }
-            free(*Matriz);
-            free(Matriz);
+            destruirMatriz(mat, i - mat);
             return NULL;
         }
     }
 
-    return Matriz;
+    return mat;
 }
 
-void LiberarMatrizChar(char** Matriz, size_t filas)
+
+void destruirMatriz(void** mat, int fil)
 {
-    filas--;
+    void** ult = mat + fil - 1;
 
-    for(filas; filas>0; filas--)
-        free(*(Matriz+filas));
-    free(*Matriz);
-
-    free(Matriz);
-}
-
-Habitacion** CrearMatrizHab(size_t filas, size_t columnas)
-{
-    Habitacion** Matriz;
-
-    Matriz = malloc(sizeof(Habitacion*)*filas);
-    if(!Matriz)
+    for(void** i = mat; i <= ult; i++)
     {
-        free(Matriz);
-        return NULL;
+        free(*i);
     }
 
-    for(size_t i=0; i<filas; i++)
-    {
-        *(Matriz+i) = malloc(sizeof(Habitacion)*columnas);
-        if(!(*(Matriz+i)))
-        {
-            for(i; i>0; i--)
-            {
-                free(*(Matriz+i));
-            }
-            free(*Matriz);
-            free(Matriz);
-            return NULL;
-        }
-    }
-
-    return Matriz;
+    free(mat);
 }
 
-void LiberarMatrizHab(Habitacion** Matriz, size_t filas)
-{
-    filas--;
-
-    for(filas; filas>0; filas--)
-        free(*(Matriz+filas));
-    free(*Matriz);
-
-    free(Matriz);
-}

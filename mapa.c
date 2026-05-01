@@ -31,7 +31,7 @@ void inicializarMapa(Nivel nivel)
 void generarNivel(Nivel nivel)
 {
     inicializarMapa(nivel);
-    Habitacion** habs = CrearMatrizHab(nivel.filas, nivel.columnas);
+    Habitacion** habs = (Habitacion**)crearMatriz(nivel.filas, nivel.columnas, sizeof(Habitacion));
 
     int sectorW = nivel.ancho / nivel.columnas; // TODO: despues reemplazar el ancho_inicial con el tamanio dinamico cuando tengamos eso implementado
     int sectorH = nivel.alto / nivel.filas;
@@ -61,7 +61,7 @@ void generarNivel(Nivel nivel)
                 conectarHabitaciones(nivel, hab, habs[f-1][c]);
         }
     }
-    LiberarMatrizHab(habs, nivel.filas);
+    destruirMatriz((void**)habs, nivel.filas);
 }
 
 void generarHabitacion(Nivel nivel, Habitacion h)

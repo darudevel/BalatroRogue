@@ -1,6 +1,6 @@
-#include "mapa.h"
+#include "headers/mapa.h"
+#include "headers/matriz_dinamica.h"
 #include <stdio.h>
-#include <time.h>
 #include <stdlib.h>
 
 // TODO: Definir NumeroAleatorio en un archivo donde tenga mas sentido que este
@@ -9,36 +9,35 @@ int NumeroAleatorio(int min, int max)
     return (rand()%(max - min + 1)) + min;
 }
 
-void MostrarMatriz(char mapa[ANCHO_INICIAL][ALTO_INICIAL])
+void MostrarMatriz(Nivel nivel)
 {
-    for (int y = 0; y < ALTO_INICIAL; y++) {
+    for (int y = 0; y < nivel.alto; y++) {
         if(y) printf("\n");
-        for (int x = 0; x < ANCHO_INICIAL; x++) {
-            printf("%c", mapa[y][x]);
+        for (int x = 0; x < nivel.ancho; x++) {
+            printf("%c", nivel.mapa[y][x]);
         }
     }
 }
 
-void inicializarMapa(char mapa[ANCHO_INICIAL][ALTO_INICIAL])
+void inicializarMapa(Nivel nivel)
 {
-   for (int y = 0; y < ALTO_INICIAL; y++) {
-        for (int x = 0; x < ANCHO_INICIAL; x++) {
-            mapa[y][x] = ' ';
+    for (int y = 0; y < nivel.alto; y++) {
+        for (int x = 0; x < nivel.ancho; x++) {
+            nivel.mapa[y][x] = ' ';
         }
     }
 }
 
-void generarNivel(char mapa[ANCHO_INICIAL][ALTO_INICIAL])
+void generarNivel(Nivel nivel)
 {
-    inicializarMapa(mapa);
-    Habitacion habs[FILAS][COLS];
-    srand(time(NULL));
+    inicializarMapa(nivel);
+    Habitacion** habs = CrearMatrizHab(nivel.filas, nivel.columnas);
 
-    int sectorW = ANCHO_INICIAL / COLS; // TODO: despues reemplazar el ancho_inicial con el tamanio dinamico cuando tengamos eso implementado
-    int sectorH = ALTO_INICIAL / FILAS;
+    int sectorW = nivel.ancho / nivel.columnas; // TODO: despues reemplazar el ancho_inicial con el tamanio dinamico cuando tengamos eso implementado
+    int sectorH = nivel.alto / nivel.filas;
 
-    for (int f = 0; f < FILAS; f++) {
-        for (int c = 0; c < COLS; c++) {
+    for (int f = 0; f < nivel.filas; f++) {
+        for (int c = 0; c < nivel.columnas; c++) {
             Habitacion hab;
 
             hab.sectorX = c;
@@ -53,33 +52,34 @@ void generarNivel(char mapa[ANCHO_INICIAL][ALTO_INICIAL])
             hab.x = (c * sectorW) + NumeroAleatorio(1, sectorW - hab.w - 1);
             hab.y = (f * sectorH) + NumeroAleatorio(1, sectorH - hab.h - 1);
 
-            generarHabitacion(mapa, hab);
+            generarHabitacion(nivel, hab);
             habs[f][c] = hab;
 
             if(c-1 >= 0)
-                conectarHabitaciones(mapa, hab, habs[f][c-1]);
+                conectarHabitaciones(nivel, hab, habs[f][c-1]);
             if(f-1 >= 0)
-                conectarHabitaciones(mapa, hab, habs[f-1][c]);
+                conectarHabitaciones(nivel, hab, habs[f-1][c]);
         }
     }
+    LiberarMatrizHab(habs, nivel.filas);
 }
 
-void generarHabitacion(char mapa[ANCHO_INICIAL][ALTO_INICIAL], Habitacion h)
+void generarHabitacion(Nivel nivel, Habitacion h)
 {
     for (int y = h.y; y < (h.y + h.h); y++) {
         for (int x = h.x; x < (h.x + h.w); x++) {
             if(y==h.y || y==h.y + h.h - 1)
-                mapa[y][x] = '-'; // Poner las paredes horizontales
-            else if
-                (x==h.x || x==h.x + h.w - 1) mapa[y][x] = '|'; // Poner las paredes verticales
+                nivel.mapa[y][x] = '-'; // Poner las paredes horizontales
+            else if (x==h.x || x==h.x + h.w - 1)
+                nivel.mapa[y][x] = '|'; // Poner las paredes verticales
             else
-                mapa[y][x] = '.'; // Poner piso
+                nivel.mapa[y][x] = '.'; // Poner piso
         }
     }
 }
 
 // Solo funciona si las habitaciones estan en sectores adyacentes
-void conectarHabitaciones(char mapa[ANCHO_INICIAL][ALTO_INICIAL], Habitacion h1, Habitacion h2)
+void conectarHabitaciones(Nivel nivel, Habitacion h1, Habitacion h2)
 {
     int horizontal = (h1.sectorX != h2.sectorX) ? 1 : 0;
     int p1x, p1y, p2x, p2y, pMedio;
@@ -122,30 +122,30 @@ void conectarHabitaciones(char mapa[ANCHO_INICIAL][ALTO_INICIAL], Habitacion h1,
         pMedio = (p1y + p2y)/2;
     }
 
-    mapa[p1y][p1x] = '+';
-    mapa[p2y][p2x] = '+';
+    nivel.mapa[p1y][p1x] = '+';
+    nivel.mapa[p2y][p2x] = '+';
 
     // Marcos: Hacer un camino tipo 'Z' dependiendo de la posicion de las habitaciones
     if(horizontal)
     {
         while(p1x != pMedio)
         {
-            if(mapa[p1y][p1x] == ' ')
-                mapa[p1y][p1x] = '#';
+            if(nivel.mapa[p1y][p1x] == ' ')
+                nivel.mapa[p1y][p1x] = '#';
             p1x += (p1x < pMedio) ? 1 : -1;
         }
 
         while(p1y != p2y)
         {
-            if(mapa[p1y][p1x] == ' ')
-                mapa[p1y][p1x] = '#';
+            if(nivel.mapa[p1y][p1x] == ' ')
+                nivel.mapa[p1y][p1x] = '#';
             p1y += (p1y < p2y) ? 1 : -1;
         }
 
         while(p1x != p2x)
         {
-            if(mapa[p1y][p1x] == ' ')
-                mapa[p1y][p1x] = '#';
+            if(nivel.mapa[p1y][p1x] == ' ')
+                nivel.mapa[p1y][p1x] = '#';
             p1x += (p1x < p2x) ? 1 : -1;
         }
     }
@@ -153,22 +153,22 @@ void conectarHabitaciones(char mapa[ANCHO_INICIAL][ALTO_INICIAL], Habitacion h1,
     {
         while(p1y != pMedio)
         {
-            if(mapa[p1y][p1x] == ' ')
-                mapa[p1y][p1x] = '#';
+            if(nivel.mapa[p1y][p1x] == ' ')
+                nivel.mapa[p1y][p1x] = '#';
             p1y += (p1y < pMedio) ? 1 : -1;
         }
 
         while(p1x != p2x)
         {
-            if(mapa[p1y][p1x] == ' ')
-                mapa[p1y][p1x] = '#';
+            if(nivel.mapa[p1y][p1x] == ' ')
+                nivel.mapa[p1y][p1x] = '#';
             p1x += (p1x < p2x) ? 1 : -1;
         }
 
         while(p1y != p2y)
         {
-            if(mapa[p1y][p1x] == ' ')
-                mapa[p1y][p1x] = '#';
+            if(nivel.mapa[p1y][p1x] == ' ')
+                nivel.mapa[p1y][p1x] = '#';
             p1y += (p1y < p2y) ? 1 : -1;
         }
     }

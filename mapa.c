@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// TODO: Definir NumeroAleatorio en un archivo donde tenga mas sentido que este
-int NumeroAleatorio(int min, int max)
+// TODO: Definir numeroAleatorio en un archivo donde tenga mas sentido que este
+int numeroAleatorio(int min, int max)
 {
     return (rand()%(max - min + 1)) + min;
 }
 
-void MostrarMatriz(Nivel nivel)
+void mostrarMatriz(Nivel nivel)
 {
     for (int y = 0; y < nivel.alto; y++) {
         if(y) printf("\n");
@@ -45,12 +45,12 @@ void generarNivel(Nivel nivel)
 
             // minimo de 4 para una habitacin 2x2
             // maximo de sectorW/H - 2 para que la habitacion entre en el sector sin que este pegado en el borde
-            hab.w = NumeroAleatorio(4, sectorW - 2);
-            hab.h = NumeroAleatorio(4, sectorH - 2);
+            hab.w = numeroAleatorio(4, sectorW - 2);
+            hab.h = numeroAleatorio(4, sectorH - 2);
 
             // x e y en posiciones aleatorias pero dejando espacio para los pasillos
-            hab.x = (c * sectorW) + NumeroAleatorio(1, sectorW - hab.w - 1);
-            hab.y = (f * sectorH) + NumeroAleatorio(1, sectorH - hab.h - 1);
+            hab.x = (c * sectorW) + numeroAleatorio(1, sectorW - hab.w - 1);
+            hab.y = (f * sectorH) + numeroAleatorio(1, sectorH - hab.h - 1);
 
             generarHabitacion(nivel, hab);
             habs[f][c] = hab;
@@ -90,16 +90,16 @@ void conectarHabitaciones(Nivel nivel, Habitacion h1, Habitacion h2)
         if(h1.sectorX < h2.sectorX)
         {
             p1x = h1.x + h1.w - 1;
-            p1y = NumeroAleatorio(h1.y + 1, h1.y + h1.h - 2);
+            p1y = numeroAleatorio(h1.y + 1, h1.y + h1.h - 2);
             p2x = h2.x;
-            p2y = NumeroAleatorio(h2.y + 1, h2.y + h2.h - 2);
+            p2y = numeroAleatorio(h2.y + 1, h2.y + h2.h - 2);
         }
         else
         {
             p1x = h1.x;
-            p1y = NumeroAleatorio(h1.y + 1, h1.y + h1.h - 2);
+            p1y = numeroAleatorio(h1.y + 1, h1.y + h1.h - 2);
             p2x = h2.x + h2.w - 1;
-            p2y = NumeroAleatorio(h2.y + 1, h2.y + h2.h - 2);
+            p2y = numeroAleatorio(h2.y + 1, h2.y + h2.h - 2);
         }
         pMedio = (p1x + p2x)/2;
     }
@@ -107,16 +107,16 @@ void conectarHabitaciones(Nivel nivel, Habitacion h1, Habitacion h2)
     {
         if(h1.sectorY < h2.sectorY)
         {
-            p1x = NumeroAleatorio(h1.x + 1, h1.x + h1.w - 2);
+            p1x = numeroAleatorio(h1.x + 1, h1.x + h1.w - 2);
             p1y = h1.y + h1.h - 1;
-            p2x = NumeroAleatorio(h2.x + 1, h2.x + h2.w - 2);
+            p2x = numeroAleatorio(h2.x + 1, h2.x + h2.w - 2);
             p2y = h2.y;
         }
         else
         {
-            p1x = NumeroAleatorio(h1.x + 1, h1.x + h1.w - 2);
+            p1x = numeroAleatorio(h1.x + 1, h1.x + h1.w - 2);
             p1y = h1.y;
-            p2x = NumeroAleatorio(h2.x + 1, h2.x + h2.w - 2);
+            p2x = numeroAleatorio(h2.x + 1, h2.x + h2.w - 2);
             p2y = h2.y + h2.h - 1;
         }
         pMedio = (p1y + p2y)/2;

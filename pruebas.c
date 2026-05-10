@@ -16,7 +16,7 @@ int main()
     srand(time(NULL));
 
     // Marcos: nivel.ancho >= 6*nivel.columnas && nivel.alto >= 6*nivel.filas sino se rompe el programa.
-    // Creo que es por algo de que sino queda un numero negativo en sectorW y/o sectorH que luego van al numeroAleatorio() y
+    // Creo que es por algo de que sino queda un numero negativo en sectorW y/o sectorH que luego van al h_numeroAleatorio() y
     // eso a c parece no gustarle mucho.
     // Ej: mapa 9x9 con sectores 3x3 no funciona, pero mapa 100x40 con sectores 5x2 si funciona
 

@@ -13,7 +13,7 @@ typedef struct
     int ancho, alto, filas, columnas;
 } Nivel;
 
-// Marcos: mostrarMatriz y numeroAleatorio creo que no deberian de ir aca, pero no se donde mas ponerlo xd
+// Marcos: mostrarMatriz y h_numeroAleatorio creo que no deberian de ir aca, pero no se donde mas ponerlo xd
 void mostrarMatriz(Nivel);
 
 // daru: posiblemente cambiemos todas estas firmas porque todavia no hicimos consenso de como hacer la estructura de juego y todo eso jeee
@@ -22,6 +22,6 @@ void generarNivel(Nivel);
 void generarHabitacion(Nivel, Habitacion);
 void conectarHabitaciones(Nivel, Habitacion, Habitacion);
 
-int numeroAleatorio(int, int);
+int h_numeroAleatorio(int, int);
 
 #endif // MAPA_H_INCLUDED

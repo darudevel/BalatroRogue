@@ -8,5 +8,7 @@
 
 - Variables: nombre_variable
 - Funciones: nombreFuncion
+- Funciones generales/helpers: h_nombreFuncion
+- Macros/definiciones: NOMBRE_MACRO
 - Tipos de dato: TipoDato
 - Archivos: nombre_archivo

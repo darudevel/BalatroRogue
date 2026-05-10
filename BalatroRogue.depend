@@ -1,0 +1,32 @@
+# depslib dependency file v1.0
+1778414372 source:c:\users\feedback\desktop\ejercicios_guia\proyecto\balatrorogue-master\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"headers/mapa.h"
+	"headers/matriz_dinamica.h"
+	"headers/personaje.h"
+	<conio.h>
+
+1777891489 source:c:\users\feedback\desktop\ejercicios_guia\proyecto\balatrorogue-master\mapa.c
+	"headers/mapa.h"
+	"headers/matriz_dinamica.h"
+	<stdio.h>
+	<stdlib.h>
+
+1777645915 c:\users\feedback\desktop\ejercicios_guia\proyecto\balatrorogue-master\headers\mapa.h
+
+1778413237 c:\users\feedback\desktop\ejercicios_guia\proyecto\balatrorogue-master\headers\matriz_dinamica.h
+	<stdlib.h>
+	"mapa.h"
+
+1777891676 source:c:\users\feedback\desktop\ejercicios_guia\proyecto\balatrorogue-master\matriz_dinamica.c
+	"headers/matriz_dinamica.h"
+
+1778416632 source:c:\users\feedback\desktop\ejercicios_guia\proyecto\balatrorogue-master\personaje.c
+	"headers/personaje.h"
+	<stdio.h>
+
+1778412356 c:\users\feedback\desktop\ejercicios_guia\proyecto\balatrorogue-master\headers\personaje.h
+	"mapa.h"
+

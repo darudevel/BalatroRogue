@@ -1,0 +1,5 @@
+BalatroRogue.layout
+obj/*
+*.exe
+# Dario: esto es mio!
+Makefile

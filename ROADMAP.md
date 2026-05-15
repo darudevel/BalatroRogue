@@ -1,7 +1,7 @@
 # Progreso
 
-[ ] Generacion de mundo
-[ ] Movimiento del jugado
+[x] Generacion de mundo
+[x] Movimiento del jugador
 [ ] Enemigos
 [ ] Guardado de partida
 [ ] Objetos

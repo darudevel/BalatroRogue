@@ -11,33 +11,30 @@ int main()
 {
     srand(time(NULL));
 
-    Nivel nivel;
-    nivel.ancho = 80;
-    nivel.alto = 24;
-    nivel.filas = 3;
-    nivel.columnas = 3;
-    //nivel.ancho >= 6*nivel.columnas && nivel.alto >= 6*nivel.filas sino se rompe el programa.
-    nivel.mapa = (char**)CrearMatriz(nivel.alto, nivel.ancho, sizeof(char));
+    Nivel nivel = inicializarNivel(80, 24, 3, 3);
     if (nivel.mapa == NULL)
     {
-        printf("No se pudo crear matriz");
+        system("cls");
+        printf("ERROR: no se pudo crear la matriz nivel");
         return 1;
     }
     generarNivel(&nivel);
 
     Jugador jugador;
     inicializarJugador(&jugador);
-    spawnearJugador(&nivel, &jugador); // Posiciona al '@' en la primera habitación
-
+    spawnearJugador(&nivel, &jugador); // Posiciona al '@' en la primera habitaciï¿½n
+    mostrarNivel(&nivel);
     char tecla = ' ';
     char actualizar=1;
     while (tecla != 'q') // 'q' para salir del juego
     {
         // Actualizar solo si se logro mover al personaje
-        if(actualizar){
+        if(actualizar) 
+        {
             system("cls");
-            MostrarNivel(&nivel); // Muestra el mapa con el '@' adentro
-            printf("\n\nHP: %d/%d | Pos: (%d, %d)", jugador.hp, jugador.hpMax, jugador.x, jugador.y);
+            mostrarNivel(&nivel); // Muestra el mapa con el '@' adentro
+            printf("\n\nHP: "ROJO"%d/%d "COLOR_DEFAULT" | Pos: (%d, %d)", jugador.hp, jugador.hpMax, jugador.x, jugador.y);
+            // printf(TEXTO_ROJO("\nUsa WASD para moverte. Presiona 'q' para salir")); -> Demostracion texto rojo
             printf("\nUsa WASD para moverte. Presiona 'q' para salir: ");
         }
 
@@ -52,6 +49,7 @@ int main()
         actualizar = moverJugador(&nivel, &jugador, dx, dy);
     }
 
-    LiberarMatriz((void**)nivel.mapa, nivel.alto);
+    liberarMatriz((void**)nivel.mapa, nivel.alto);
+    h_limpiarColor(); // Dario: por si se nos pasa alguno
     return 0;
 }

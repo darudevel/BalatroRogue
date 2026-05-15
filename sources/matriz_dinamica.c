@@ -1,42 +1,42 @@
 #include <stdlib.h>
-#include "../headers/Matriz_Dinamica.h"
+#include "../headers/matriz_dinamica.h"
 
-void** CrearMatriz(size_t filas, size_t columnas, size_t TamDato)
+void** crearMatriz(size_t filas, size_t columnas, size_t tam_dato)
 {
-    void** Matriz;
+    void** matriz;
 
-    Matriz = malloc(sizeof(void*)*filas);
-    if(!Matriz)
+    matriz = malloc(sizeof(void*)*filas);
+    if(!matriz)
     {
-        free(Matriz);
+        free(matriz);
         return NULL;
     }
 
     for(size_t i=0; i<filas; i++)
     {
-        *(Matriz+i) = malloc(TamDato*columnas);
-        if(!(*(Matriz+i)))
+        *(matriz+i) = malloc(tam_dato*columnas);
+        if(!(*(matriz+i)))
         {
             for(i; i>0; i--)
             {
-                free(*(Matriz+i));
+                free(*(matriz+i));
             }
-            free(*Matriz);
-            free(Matriz);
+            free(*matriz);
+            free(matriz);
             return NULL;
         }
     }
 
-    return Matriz;
+    return matriz;
 }
 
-void LiberarMatriz(void** Matriz, size_t filas)
+void liberarMatriz(void** matriz, size_t filas)
 {
     filas--;
 
     for(filas; filas>0; filas--)
-        free(*(Matriz+filas));
-    free(*Matriz);
+        free(*(matriz+filas));
+    free(*matriz);
 
-    free(Matriz);
+    free(matriz);
 }

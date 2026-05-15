@@ -14,13 +14,13 @@ typedef struct
     Habitacion** habitaciones;
 } Nivel;
 
-// daru: posiblemente cambiemos todas estas firmas porque todavia no hicimos consenso de como hacer la estructura de juego y todo eso jeee
-void inicializarMapa(Nivel*);
-void generarNivel(Nivel*);
-void generarHabitacion(Nivel*, Habitacion*);
-void conectarHabitaciones(Nivel*);
-void dfsConectar(Nivel*, int, int, int**);
-void generarPasillos(Nivel*, Habitacion*, Habitacion*);
-void MostrarNivel(Nivel*);
+void inicializarMapa(Nivel* nivel);
+void generarNivel(Nivel* nivel);
+Nivel inicializarNivel(int ancho, int alto, int filas, int columnas);
+void generarHabitacion(Nivel* nivel, Habitacion* h);
+void conectarHabitaciones(Nivel* nivel);
+void dfsConectar(Nivel* nivel, int, int, int**);
+void generarPasillos(Nivel* nivel, Habitacion* h1, Habitacion* h2);
+void mostrarNivel(Nivel* nivel);
 
 #endif // MAPA_H_INCLUDED

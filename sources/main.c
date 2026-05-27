@@ -6,6 +6,7 @@
 #include "../headers/matriz_dinamica.h"
 #include "../headers/personaje.h"
 #include "../headers/helpers.h"
+#include "../headers/objetos.h"
 
 int main()
 {
@@ -19,7 +20,9 @@ int main()
         return 1;
     }
     generarNivel(&nivel);
-
+    generarObjetosNivel(&nivel);
+    generarOroNivel(&nivel);
+    dibujarObjetosNivel(&nivel);
     Jugador jugador;
     inicializarJugador(&jugador);
     spawnearJugador(&nivel, &jugador); // Posiciona al '@' en la primera habitaci�n
@@ -29,7 +32,7 @@ int main()
     while (tecla != 'q') // 'q' para salir del juego
     {
         // Actualizar solo si se logro mover al personaje
-        if(actualizar) 
+        if(actualizar)
         {
             system("cls");
             mostrarNivel(&nivel); // Muestra el mapa con el '@' adentro
@@ -46,7 +49,21 @@ int main()
         if (tecla == 'a' || tecla == 'A') dx = -1;
         if (tecla == 'd' || tecla == 'D') dx = 1;
 
-        actualizar = moverJugador(&nivel, &jugador, dx, dy);
+        if (tecla == 'i' || tecla == 'I')
+        {
+            int indice = seleccionarObjetoInventario(&jugador.inventario);
+            if(indice != -1)
+                usarObjetoInventario(&jugador, indice);
+            actualizar = 1; //que actualice aunque abras el inventario y no te muevas
+        }
+        else if(dx != 0 || dy != 0) //que actualice cuando te muevas
+        {
+            actualizar = moverJugador(&nivel, &jugador, dx, dy);
+        }
+        else
+        {
+            actualizar = 0;
+        }
     }
 
     liberarMatriz((void**)nivel.mapa, nivel.alto);

@@ -19,6 +19,8 @@ void inicializarJugador(Jugador* jugador)
 {
     jugador->hp = 100;
     jugador->hpMax = 100;
+    jugador->oro = 0;
+    inicializarInventario(&jugador->inventario);
 }
 
 char moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
@@ -33,7 +35,7 @@ char moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
     }
     //Comprobamos si el casillero de destino es transitable
     char destino = nivel->mapa[ny][nx];
-    if (destino == '.' || destino == '#' || destino == '+') // Por ahora, asumimos que se mueve sobre piso '.','+' o pasillos '#' comunes.
+    if (destino == '.' || destino == '#' || destino == '+' || destino == '*' || destino == '!' || destino == ':' || destino == ')') // Por ahora, asumimos que se mueve sobre piso '.','+' o pasillos '#' comunes.
     {
         // EMA: Mas o menos se podria explicar que guardamos el caracter donde esta parado el jugador.
         // Como el jugador pisa cosas, al salir de un casillero debemos restaurar lo que habia previamente
@@ -44,6 +46,9 @@ char moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
 
         // Restauramos el casillero viejo con lo que habia abajo antes de que el '@' se parara alli
         nivel->mapa[jugador->y][jugador->x] = bajoElJugador;
+
+        //Se llama antes a esta funcion para que cuando pise el objeto, no se restaure donde estaba anteriormente, sino que desaparezca
+        recogerObjeto(nivel, jugador, nx, ny);
 
         // Guardamos lo que hay en el NUEVO casillero antes de pararnos
         bajoElJugador = nivel->mapa[ny][nx];

@@ -58,8 +58,16 @@ Nivel inicializarNivel(int ancho, int alto, int filas, int columnas)
     nivel.alto = alto;
     nivel.filas = filas;
     nivel.columnas = columnas;
-    
+    nivel.profundidad = 1; // Nivel de profundidad actual, nunca puede ser mayor a profundidad_limite
+    // El nivel de profundidad siempre tiene que arrancar en 1, sino se rompen los calculos del oro en objetos.c
+    nivel.profundidad_limite = 10; // TODO: placeholder
     nivel.mapa = (char**)crearMatriz(nivel.alto, nivel.ancho, sizeof(char));
+    if (nivel.mapa == NULL)
+    {
+        system("cls");
+        printf("ERROR: no se pudo crear la matriz nivel");
+        exit(1); // TODO: esto es un crimen de guerra
+    }
     // nivel.ancho >= 6*nivel.columnas && nivel.alto >= 6*nivel.filas sino se rompe el programa.
     // Dario: ^ esto sigue vigente? asi agregamos el check
     // Dario: devolvemos una copia, pero como el puntero tambien se copia, podemos inicializar todo aca adentro

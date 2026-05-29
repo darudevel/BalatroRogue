@@ -7,26 +7,21 @@
 #include "../headers/personaje.h"
 #include "../headers/helpers.h"
 #include "../headers/objetos.h"
+#include "../headers/juego.h"
 
 int main()
 {
     srand(time(NULL));
-
-    Nivel nivel = inicializarNivel(80, 24, 3, 3);
-    if (nivel.mapa == NULL)
-    {
-        system("cls");
-        printf("ERROR: no se pudo crear la matriz nivel");
-        return 1;
-    }
-    generarNivel(&nivel);
-    generarObjetosNivel(&nivel);
-    generarOroNivel(&nivel);
-    dibujarObjetosNivel(&nivel);
+    
     Jugador jugador;
-    inicializarJugador(&jugador);
-    spawnearJugador(&nivel, &jugador); // Posiciona al '@' en la primera habitaci�n
-    mostrarNivel(&nivel);
+    Nivel   nivel = inicializarNivel(80, 24, 3, 3);
+    Juego   juego;
+    
+    juego.nivel   = &nivel;
+    juego.jugador = &jugador;
+
+    inicializarJuego(&juego);
+    mostrarNivel(juego.nivel);
     char tecla = ' ';
     char actualizar=1;
     while (tecla != 'q') // 'q' para salir del juego
@@ -37,7 +32,6 @@ int main()
             system("cls");
             mostrarNivel(&nivel); // Muestra el mapa con el '@' adentro
             printf("\n\nHP: "ROJO"%d/%d "COLOR_DEFAULT" | Pos: (%d, %d)", jugador.hp, jugador.hpMax, jugador.x, jugador.y);
-            // printf(TEXTO_ROJO("\nUsa WASD para moverte. Presiona 'q' para salir")); -> Demostracion texto rojo
             printf("\nUsa WASD para moverte. Presiona 'q' para salir: ");
         }
 

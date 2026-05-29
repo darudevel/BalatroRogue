@@ -21,6 +21,9 @@ typedef struct Nivel
     int cantOro;
     Objeto amuleto;
     int amuletoGenerado;
+
+    int profundidad;
+    int profundidad_limite;
 } Nivel;
 
 void inicializarMapa(Nivel* nivel);

@@ -35,7 +35,14 @@ char moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
     }
     //Comprobamos si el casillero de destino es transitable
     char destino = nivel->mapa[ny][nx];
-    if (destino == '.' || destino == '#' || destino == '+' || destino == '*' || destino == '!' || destino == ':' || destino == ')') // Por ahora, asumimos que se mueve sobre piso '.','+' o pasillos '#' comunes.
+    if (destino == '.'     // Piso
+        || destino == '#'  // Pasillo
+        || destino == '+'  // Puerta
+        || destino == '*'  // Amuleto
+        || destino == '$'  // Oro
+        || destino == '!'  // Pocion
+        || destino == ':'  // Comida
+        || destino == ')') // Arma
     {
         // EMA: Mas o menos se podria explicar que guardamos el caracter donde esta parado el jugador.
         // Como el jugador pisa cosas, al salir de un casillero debemos restaurar lo que habia previamente

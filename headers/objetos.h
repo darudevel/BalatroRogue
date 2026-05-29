@@ -5,19 +5,22 @@
 typedef struct Nivel Nivel;
 typedef struct Jugador Jugador;
 
-#define OBJ_ORO      1
-#define OBJ_POCION   2
-#define OBJ_COMIDA   3
-#define OBJ_ARMA     4
-#define OBJ_AMULETO  5 //Para el tipo de Objeto
+typedef enum {
+    OBJ_ORO = 1,
+    OBJ_POCION,
+    OBJ_COMIDA,
+    OBJ_ARMA,
+    OBJ_AMULETO
+} TipoObjeto;
 
-#define CAPACIDAD_INVENTARIO 10 //esto se puede modificar luego
+#define CAPACIDAD_INVENTARIO 15 //esto se puede modificar luego
 #define MAX_OBJETOS_NIVEL 9
 #define MAX_ORO_NIVEL 7
+
 typedef struct{
     int x; //Posiciones en el mapa
     int y;
-    int tipo;
+    TipoObjeto tipo;
     char representacion;
     int valor; //depende del tipo de Objeto (50 monedas, pocion cura 20 hp)
     int activo; //si fue recogido o no
@@ -29,11 +32,11 @@ typedef struct{
 }Inventario;
 
 void inicializarInventario(Inventario* inventario);
-Objeto crearObjeto(int tipo, int x, int y);
+Objeto crearObjeto(TipoObjeto tipo, int x, int y, int profundidad_actual);
 int agregarObjetoInventario(Inventario* inventario, Objeto objeto);
 int seleccionarObjetoInventario(Inventario* inventario);
 void generarObjetosNivel(Nivel* nivel); //Trabajar el oro y los objetos como cosas diferentes pq el limite de objetos en el Rogue original era 9
-void generarOroNivel(Nivel* nivel);     //Pero el oro no tenía limite (elegi limite 7 por definir algun valor)
+void generarOroNivel(Nivel* nivel);     //Pero el oro no tenia limite (elegi limite 7 por definir algun valor)
 void dibujarObjetosNivel(Nivel* nivel);
 int buscarObjetoEnPosicion(Nivel* nivel, int x, int y);
 int buscarOroEnPosicion(Nivel* nivel, int x, int y);

@@ -5,12 +5,14 @@
 #include "../headers/mapa.h"
 #include "../headers/personaje.h"
 #include "../headers/helpers.h"
+
+
 void inicializarInventario(Inventario* inventario)
 {
     inventario->cantidad = 0;
 }
 
-Objeto crearObjeto(int tipo, int x, int y)
+Objeto crearObjeto(TipoObjeto tipo, int x, int y, int profundidad_actual)
 {
     Objeto objeto;
 
@@ -23,8 +25,8 @@ Objeto crearObjeto(int tipo, int x, int y)
     switch(tipo)
     {
         case OBJ_ORO:
-            objeto.representacion = '*';
-            objeto.valor= h_numAleatorio(5,50); //Originalmente la cuenta q hacia del oro era
+            objeto.representacion = '$';
+            objeto.valor= h_numAleatorio(50, 50 + 10 * profundidad_actual); //Originalmente la cuenta q hacia del oro era
             break;                               //random(50 + 10 * nivel) + 2, osea q iba dependiendo del nivel
                                                 // se puede modificar una vez establecido un valor en los niveles
         case OBJ_POCION:
@@ -34,16 +36,17 @@ Objeto crearObjeto(int tipo, int x, int y)
 
         case OBJ_COMIDA:
             objeto.representacion = ':';
-            objeto.valor = 15; //Cura 15 de vida. Puede ser modificado por otro valor
+            objeto.valor = (15 + 5 * profundidad_actual); // Cura 15 de vida. Puede ser modificado por otro valor
+                                                          // Dario: ahora le sumamos por profundidad
             break;
 
         case OBJ_ARMA:
             objeto.representacion = ')';
-            objeto.valor = 5; //5 de daño aumentado
+            objeto.valor = (5 * profundidad_actual + h_numAleatorio(1, 6) * profundidad_actual);
             break;
 
         case OBJ_AMULETO:
-            objeto.representacion = ',';
+            objeto.representacion = '*';
             objeto.valor = 0; //Tengo entendido que con eso ganas el juego, tendriamos q ponerlo en el ultimo Nivel y q solo apareciera
             break;            //una vez como condicion de victoria
 
@@ -173,9 +176,9 @@ void generarObjetosNivel(Nivel* nivel)
 
         int y = h_numAleatorio(hab.y + 1, hab.y + hab.h - 2);
 
-        int tipo = h_numAleatorio(OBJ_POCION, OBJ_ARMA); //tipo aleatorio de objeto
+        int tipo = h_numAleatorio(OBJ_POCION, OBJ_ARMA); //tipo aleatorio de objeto (2->4)
 
-        nivel->objetos[i] = crearObjeto(tipo, x, y);
+        nivel->objetos[i] = crearObjeto(tipo, x, y, nivel->profundidad);
     }
 }
 
@@ -195,11 +198,9 @@ void generarOroNivel(Nivel* nivel)
 
         int y = h_numAleatorio(hab.y + 1, hab.y + hab.h - 2);
 
-        Objeto oro = crearObjeto(OBJ_ORO, x, y);
+        Objeto oro = crearObjeto(OBJ_ORO, x, y, nivel->profundidad);
 
-        oro.valor = h_numAleatorio(0,50 + 10 * nivel->nivelDungeon) + 2;
-        //Habria que agregar un apartado al struct Nivel que fuera mostrando en q piso estas para ir variando las recompensas obtenidas
-        //o sino podemos mantenerlo fijo
+        oro.valor = h_numAleatorio(0,50 + 10 * nivel->profundidad) + 2;
 
         nivel->oro[i] = oro;
     }
@@ -265,7 +266,7 @@ void eliminarObjetoInventario(Inventario* inventario, int indice)
     inventario->cantidad--;
 }
 
-int usarObjetoInventario(Jugador* jugador, int indice)
+int usarObjetoInventario(Jugador* jugador, int indice) // Dario: esto no necesita valor de retorno pareciera
 {
     if(indice < 0 || indice >= jugador->inventario.cantidad)
     {
@@ -277,7 +278,7 @@ int usarObjetoInventario(Jugador* jugador, int indice)
     switch(obj.tipo)
     {
         case OBJ_POCION:
-             if(jugador->hp == jugador->hpMax) //pocion aumenta la hpMax en caso de que tenga full vida
+            if(jugador->hp == jugador->hpMax) //pocion aumenta la hpMax en caso de que tenga full vida
             {
                 jugador->hpMax += obj.valor;
                 jugador->hp = jugador->hpMax;
@@ -292,22 +293,25 @@ int usarObjetoInventario(Jugador* jugador, int indice)
                 }
             }
 
-            eliminarObjetoInventario(&jugador->inventario, indice);
-            return 1;
+            
+            break;
 
         case OBJ_COMIDA:
             jugador->hp += obj.valor;
 
             if(jugador->hp > jugador->hpMax)
                 jugador->hp = jugador->hpMax;
-
-            eliminarObjetoInventario(&jugador->inventario, indice);
-            return 1;
+            break;
 
         case OBJ_ARMA:
-            // por ahora no hacemos nada hasta que exista daño/arma equipada
-            return 0;
+            if (jugador->danio > obj.valor)
+                break; // para evitar que se dispare en la patita el jugador
+            jugador->danio = obj.valor; // el daÃ±o del jugador pasa a ser el del arma a equipar
+                                        // TODO: tendriamos que decidir que hacer con el 'arma anterior'
+            break;
+        default:
+            return 1;
     }
-
+    eliminarObjetoInventario(&jugador->inventario, indice); // si llegamos aca, quiere decir que uno de los objetos se uso
     return 0;
 }

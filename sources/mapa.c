@@ -1,6 +1,7 @@
 #include "../headers/mapa.h"
 #include "../headers/matriz_dinamica.h"
 #include "../headers/helpers.h"
+#include "../headers/juego.h"
 #include <stdio.h>
 
 void inicializarMapa(Nivel* nivel)
@@ -45,21 +46,23 @@ void generarNivel(Nivel* nivel)
     conectarHabitaciones(nivel);
 }
 
-Nivel inicializarNivel(int ancho, int alto, int filas, int columnas)
+Nivel inicializarNivel(int ancho, int alto, int enemigos_reducidos, int profundidad_max)
 {
     Nivel nivel = {0};
-    if (ancho < 0 || alto < 0 || filas < 0 || columnas < 0) {
-        system("cls");
-        fprintf(stderr, "ERROR: No se pudo inicializar el nivel, valor invalido. Valores: \n");
-        fprintf(stderr, "Ancho: %d\tAlto: %d\tFilas: %d\tColumnas: %d\t\n", ancho, alto, filas, columnas);
-        return nivel; // Dario: enrealidad habria que tener alguna funcion de cleanup 'global', capaz en helpers.h y reemplazar esto por un exit(1)/cleanup()
-    }
     nivel.ancho = ancho;
     nivel.alto = alto;
-    nivel.filas = filas;
-    nivel.columnas = columnas;
-
+    nivel.filas = 3; // Dario: hardcodeado, capaz podemos cambiarlo, pero no hay intenciones
+    nivel.columnas = 3;
+    nivel.profundidad = 1;
+    nivel.profundidad_max = profundidad_max;
+    nivel.enemigos_reducidos = enemigos_reducidos;
     nivel.mapa = (char**)crearMatriz(nivel.alto, nivel.ancho, sizeof(char));
+    if (nivel.mapa == NULL)
+    {
+        system("cls");
+        printf("ERROR: no se pudo crear la matriz nivel");
+        exit(1); // TODO: esto es un crimen de guerra
+    }
     // nivel.ancho >= 6*nivel.columnas && nivel.alto >= 6*nivel.filas sino se rompe el programa.
     // Dario: ^ esto sigue vigente? asi agregamos el check
     // Dario: devolvemos una copia, pero como el puntero tambien se copia, podemos inicializar todo aca adentro
@@ -71,6 +74,13 @@ void mostrarNivel(Nivel* nivel)
     for (int y = 0; y < nivel->alto; y++) {
         if(y) printf("\n");
         for (int x = 0; x < nivel->ancho; x++) {
+            if (nivel->mapa[y][x] == '*') {
+                printf(VERDE "%c" COLOR_DEFAULT, nivel->mapa[y][x]);
+                continue;
+            } else if (nivel->mapa[y][x] == '@') {
+                printf(AZUL "%c" COLOR_DEFAULT, nivel->mapa[y][x]);
+                continue;
+            }
             printf("%c", nivel->mapa[y][x]);
         }
     }

@@ -2,7 +2,7 @@
 #include "../headers/helpers.h"
 #include "../headers/personaje.h"
 
-int cantidadEnemigos(Habitacion* habitacion)
+int determinarCantidadEnemigos(Habitacion* habitacion)
 {
     int cant=0;
     int filas=habitacion->h-habitacion->y;
@@ -26,7 +26,7 @@ int cantidadEnemigos(Habitacion* habitacion)
     return cant;
 }
 
-void tipoenemigo(Enemigo* enemigo)
+void determinarTipoEnemigo(Enemigo* enemigo)
 {
     //int num=h_numAleatorio(1, 2); esto pra elegir el tipo de enemigo aliatorio pero por ahora lo dejamos desactivado para probar ambos tipos de enemigos
     int num=enemigo->tipo;
@@ -34,14 +34,14 @@ void tipoenemigo(Enemigo* enemigo)
     {
         enemigo->hpMax=100;
         enemigo->hp=100;
-        enemigo->atack=25;
+        enemigo->attack=25;
         enemigo->tipo=1;
     }
     else
     {
         enemigo->hpMax=200;
         enemigo->hp=200;
-        enemigo->atack=50;
+        enemigo->attack=50;
         enemigo->tipo=2;
     }
 
@@ -73,7 +73,7 @@ void spawnearEnemigo(Nivel* nivel, Enemigo* enemigo)
 
 }
 
-void localizarymoverjugador(Nivel* nivel, Enemigo* enemigo, Jugador* jugador)
+void localizarYMoverAJugador(Nivel* nivel, Enemigo* enemigo, Jugador* jugador)
 {
     int jugadorx=jugador->x;
     int jugadory=jugador->y;
@@ -87,7 +87,7 @@ void localizarymoverjugador(Nivel* nivel, Enemigo* enemigo, Jugador* jugador)
     }
     if((calx>=-1 && calx<=1) &&(caly>=-1 && caly<=1) )
     {
-        atacarajugador(enemigo, jugador);
+        atacarAJugador(enemigo, jugador);
             puts("ataco\n");
 
     }
@@ -128,9 +128,9 @@ else
 
 }
 
-void atacarajugador(Enemigo* enemigo, Jugador* jugador)
+void atacarAJugador(Enemigo* enemigo, Jugador* jugador)
 {
-    jugador->hp -=enemigo->atack;
+    jugador->hp -=enemigo->attack;
 }
 
 void eleminarEnemigo(Nivel* nivel, Enemigo* enemigo)

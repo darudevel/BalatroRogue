@@ -42,7 +42,7 @@ Objeto crearObjeto(TipoObjeto tipo, int x, int y, int profundidad_actual)
 
         case OBJ_ARMA:
             objeto.representacion = ')';
-            objeto.valor = (5 * profundidad_actual + h_numAleatorio(1, 6) * profundidad_actual);
+            objeto.valor = (40 + h_numAleatorio(1, 6) * profundidad_actual + h_numAleatorio(5, 20));
             break;
 
         case OBJ_AMULETO:
@@ -93,9 +93,10 @@ int seleccionarObjetoInventario(Inventario* inventario)
         for(int i = 0; i < inventario->cantidad; i++)
         {
             printf("%c) ", 'a' + i);
-
+            
             switch(inventario->objetos[i].tipo)
             {
+                
                 case OBJ_POCION:
                     printf("Una pocion");
                     break;
@@ -103,10 +104,10 @@ int seleccionarObjetoInventario(Inventario* inventario)
                     printf("Algo de comida");
                     break;
                 case OBJ_ARMA:
-                    printf("Un arma");
+                    printf("Un arma (Str: %d)", inventario->objetos[i].valor);
                     break;
                 case OBJ_AMULETO:
-                    printf("El Amuleto de Yendor");
+                    printf(VERDE "El Amuleto de Yendor" COLOR_DEFAULT);
                     break;
                 default:
                     printf("Un item desconocido");
@@ -139,7 +140,7 @@ int seleccionarObjetoInventario(Inventario* inventario)
 
 void dibujarObjetosNivel(Nivel* nivel)
 {
-    for(int i = 0; i < nivel->cantObjetos; i++)
+    for(int i = 0; i < nivel->cant_objetos; i++)
     {
         if(nivel->objetos[i].activo) //Recorre todos los objetos que estan en el nivel. Si estan activos, los pone en el mapa
         {
@@ -147,7 +148,7 @@ void dibujarObjetosNivel(Nivel* nivel)
         }
     }
 
-    for(int i = 0; i < nivel->cantOro; i++) //Objetos por un lado, oro y amuleto por el otro
+    for(int i = 0; i < nivel->cant_oro; i++) //Objetos por un lado, oro y amuleto por el otro
     {
         if(nivel->oro[i].activo)
         {
@@ -155,7 +156,7 @@ void dibujarObjetosNivel(Nivel* nivel)
         }
     }
 
-    if(nivel->amuletoGenerado && nivel->amuleto.activo)
+    if(nivel->amuleto_generado && nivel->amuleto.activo)
     {
         nivel->mapa[nivel->amuleto.y][nivel->amuleto.x]=nivel->amuleto.representacion;
     }
@@ -163,9 +164,9 @@ void dibujarObjetosNivel(Nivel* nivel)
 
 void generarObjetosNivel(Nivel* nivel)
 {
-    nivel->cantObjetos = h_numAleatorio(4, MAX_OBJETOS_NIVEL);
+    nivel->cant_objetos = h_numAleatorio(4, MAX_OBJETOS_NIVEL);
 
-    for(int i = 0; i < nivel->cantObjetos; i++)
+    for(int i = 0; i < nivel->cant_objetos; i++)
     {
         int secy = h_numAleatorio(0, nivel->filas - 1); //habitacion aleatoria
         int secx = h_numAleatorio(0, nivel->columnas - 1);
@@ -173,20 +174,24 @@ void generarObjetosNivel(Nivel* nivel)
         Habitacion hab = nivel->habitaciones[secy][secx];
 
         int x = h_numAleatorio(hab.x + 1, hab.x + hab.w - 2); //posicion interna de la habitacion
-
+        
         int y = h_numAleatorio(hab.y + 1, hab.y + hab.h - 2);
-
+        if (!nivel->amuleto_generado && nivel->profundidad == nivel->profundidad_max) {
+            nivel->objetos[i] = crearObjeto(OBJ_AMULETO, x, y, nivel->profundidad);
+            nivel->amuleto_generado = 1;
+            continue;
+        }
+        
         int tipo = h_numAleatorio(OBJ_POCION, OBJ_ARMA); //tipo aleatorio de objeto (2->4)
-
         nivel->objetos[i] = crearObjeto(tipo, x, y, nivel->profundidad);
     }
 }
 
 void generarOroNivel(Nivel* nivel)
 {
-    nivel->cantOro = h_numAleatorio(2, MAX_ORO_NIVEL);
+    nivel->cant_oro = h_numAleatorio(2, MAX_ORO_NIVEL);
 
-    for(int i = 0; i < nivel->cantOro; i++)
+    for(int i = 0; i < nivel->cant_oro; i++)
     {
         int secy = h_numAleatorio(0, nivel->filas - 1);
 
@@ -208,7 +213,7 @@ void generarOroNivel(Nivel* nivel)
 
 int buscarObjetoEnPosicion(Nivel* nivel, int x, int y)
 {
-    for(int i = 0; i < nivel->cantObjetos; i++)
+    for(int i = 0; i < nivel->cant_objetos; i++)
     {
         if(nivel->objetos[i].activo && nivel->objetos[i].x == x && nivel->objetos[i].y == y)
         {
@@ -221,7 +226,7 @@ int buscarObjetoEnPosicion(Nivel* nivel, int x, int y)
 
 int buscarOroEnPosicion(Nivel* nivel, int x, int y)
 {
-    for(int i = 0; i < nivel->cantOro; i++)
+    for(int i = 0; i < nivel->cant_oro; i++)
     {
         if(nivel->oro[i].activo && nivel->oro[i].x == x && nivel->oro[i].y == y)
         {
@@ -293,7 +298,7 @@ int usarObjetoInventario(Jugador* jugador, int indice) // Dario: esto no necesit
                 }
             }
 
-            
+
             break;
 
         case OBJ_COMIDA:

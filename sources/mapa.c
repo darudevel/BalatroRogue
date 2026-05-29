@@ -51,23 +51,15 @@ Nivel inicializarNivel(int ancho, int alto, int filas, int columnas)
     if (ancho < 0 || alto < 0 || filas < 0 || columnas < 0) {
         system("cls");
         fprintf(stderr, "ERROR: No se pudo inicializar el nivel, valor invalido. Valores: \n");
-        fprintf(stderr, "Ancho: %d\tAlto: %d\tFilas: %d\tColumnas: %d\t\n");
+        fprintf(stderr, "Ancho: %d\tAlto: %d\tFilas: %d\tColumnas: %d\t\n", ancho, alto, filas, columnas);
         return nivel; // Dario: enrealidad habria que tener alguna funcion de cleanup 'global', capaz en helpers.h y reemplazar esto por un exit(1)/cleanup()
     }
     nivel.ancho = ancho;
     nivel.alto = alto;
     nivel.filas = filas;
     nivel.columnas = columnas;
-    nivel.profundidad = 1; // Nivel de profundidad actual, nunca puede ser mayor a profundidad_limite
-    // El nivel de profundidad siempre tiene que arrancar en 1, sino se rompen los calculos del oro en objetos.c
-    nivel.profundidad_limite = 10; // TODO: placeholder
+
     nivel.mapa = (char**)crearMatriz(nivel.alto, nivel.ancho, sizeof(char));
-    if (nivel.mapa == NULL)
-    {
-        system("cls");
-        printf("ERROR: no se pudo crear la matriz nivel");
-        exit(1); // TODO: esto es un crimen de guerra
-    }
     // nivel.ancho >= 6*nivel.columnas && nivel.alto >= 6*nivel.filas sino se rompe el programa.
     // Dario: ^ esto sigue vigente? asi agregamos el check
     // Dario: devolvemos una copia, pero como el puntero tambien se copia, podemos inicializar todo aca adentro

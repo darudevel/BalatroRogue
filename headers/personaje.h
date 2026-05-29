@@ -2,18 +2,12 @@
 #define PERSONAJE_H_INCLUDED
 
 #include "mapa.h"
-#include "objetos.h"
 
-typedef struct Jugador {
+typedef struct {
     int x; // Posicion horizontal actual en la matriz
     int y; // Posicion vertical actual en la matriz
-    
     int hp;
     int hpMax;
-
-    int oro;
-    Inventario inventario;
-    int danio;
 } Jugador;
 
 // Busca un casillero vacio de habitacion ('.') y situa al jugador ahi

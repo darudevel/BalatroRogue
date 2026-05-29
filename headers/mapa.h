@@ -1,29 +1,17 @@
 #ifndef MAPA_H_INCLUDED
 #define MAPA_H_INCLUDED
 
-#include "objetos.h"
-
 typedef struct
 {
     int x, y, w, h;
     int sectorX, sectorY;
 } Habitacion;
 
-typedef struct Nivel
+typedef struct
 {
     char** mapa;
     int ancho, alto, filas, columnas;
     Habitacion** habitaciones;
-
-    Objeto objetos[MAX_OBJETOS_NIVEL];
-    int cantObjetos;
-    Objeto oro[MAX_ORO_NIVEL];
-    int cantOro;
-    Objeto amuleto;
-    int amuletoGenerado;
-
-    int profundidad;
-    int profundidad_limite;
 } Nivel;
 
 void inicializarMapa(Nivel* nivel);

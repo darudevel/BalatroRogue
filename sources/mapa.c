@@ -53,7 +53,7 @@ Nivel inicializarNivel(Configuracion* config)
     nivel.alto = config->alto_nivel;
     nivel.filas = 3; // Dario: hardcodeado, capaz podemos cambiarlo, pero no hay intenciones
     nivel.columnas = 3;
-    nivel.profundidad = 1;
+    nivel.profundidad = 0; // Se va a poner en uno al crear el primer piso
     nivel.profundidad_max = config->profundidad_max;
     nivel.enemigos_reducidos = config->enemigos_reducidos;
     nivel.mapa = (char**)crearMatriz(nivel.alto, nivel.ancho, sizeof(char));
@@ -71,8 +71,8 @@ Nivel inicializarNivel(Configuracion* config)
 
 void generarEscalera(Nivel *nivel)
 {
-    if(nivel->profundidad == nivel->profundidad_max)
-        return;
+/*     if(nivel->profundidad == nivel->profundidad_max)
+        return; */
 
     int x, y;
 
@@ -99,6 +99,9 @@ void mostrarNivel(Nivel* nivel)
                 continue;
             } else if (nivel->mapa[y][x] == '@') {
                 printf(AZUL "%c" COLOR_DEFAULT, nivel->mapa[y][x]);
+                continue;
+            } else if (nivel->mapa[y][x] == '%' && nivel->profundidad == nivel->profundidad_max) {
+                printf(VERDE "%c" COLOR_DEFAULT, nivel->mapa[y][x]);
                 continue;
             }
             printf("%c", nivel->mapa[y][x]);

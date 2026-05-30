@@ -120,6 +120,7 @@ void eleminarEnemigo(Nivel* nivel, Enemigo* enemigo)
             nivel->vect_enemigos[pos-1] = nivel->vect_enemigos[pos];
         }
         nivel->cant_enemigos--;
+        
     }
 
     if(!nivel->cant_enemigos)

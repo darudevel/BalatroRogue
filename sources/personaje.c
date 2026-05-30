@@ -24,6 +24,9 @@ void inicializarJugador(Jugador* jugador)
     jugador->oro = 0;
     jugador->danio = 40;
     jugador->escalera = false;
+    jugador->puede_ganar = false;
+    jugador->objetos_recogidos = 0;
+    jugador->enemigos_asesinados = 0;
     inicializarInventario(&jugador->inventario);
 }
 
@@ -42,7 +45,7 @@ bool moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
     int pos = buscarEnemigoEnPosicion(nivel, nx, ny);
     if(pos != -1)
     {
-        atacaraenemigo(nivel, nivel->vect_enemigos + pos, jugador);
+        atacarAEnemigo(nivel, nivel->vect_enemigos + pos, jugador);
         return true;
     }
     else if (destino == '%'){
@@ -87,12 +90,13 @@ bool moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
     return false;
 }
 
-int atacaraenemigo(Nivel* nivel, Enemigo* enemigo, Jugador* jugador)
+int atacarAEnemigo(Nivel* nivel, Enemigo* enemigo, Jugador* jugador)
 {
     enemigo->hp -= jugador->danio;
 
     if(enemigo->hp <= 0){
         eleminarEnemigo(nivel, enemigo);
+        jugador->enemigos_asesinados++;
         return 1;
     }
 

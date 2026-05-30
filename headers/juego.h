@@ -31,6 +31,7 @@ void menuConfiguracion(Configuracion *config);
 int validarInput(int rango_min, int rango_max);
 void esperarInput(char* tecla);
 EstadoJuego tickJuego(Juego* juego, char tecla);
+void ganarPartida(Juego *juego);
 void salirJuego(Juego* juego);
 
 #endif // JUEGO_H_INCLUDED

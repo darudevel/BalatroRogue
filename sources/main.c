@@ -18,16 +18,28 @@ int main()
     juego.nivel   = &nivel;
     juego.jugador = &jugador;
 
-    bool bool_juego = true;
+    bool loop_juego = true;
     EstadoJuego estado_partida = JUGANDO;
     char tecla;
-    while(bool_juego){
+    while(loop_juego) {
+        if (estado_partida == VICTORIA) {
+            ganarPartida(&juego);
+        }
         estado_partida = inicializarJuego(&juego);
 
-        while(estado_partida){
+        while(estado_partida == JUGANDO){
             esperarInput(&tecla);
             estado_partida = tickJuego(&juego, tecla);
-            if(jugador.escalera == true){
+
+            // Dario: si se generó el amuleto y estas pisando la escalera, ganas
+            // no hace falta checkear si estas en el piso mas bajo porque esta implicito en que este generado el amuleto
+            if (jugador.escalera && jugador.puede_ganar) {
+                estado_partida = VICTORIA;
+                jugador.escalera = false;
+            } else if (jugador.escalera == true && nivel.profundidad == nivel.profundidad_max) { // Si llegas aca, no podes ganar y pisaste la escalera
+                jugador.escalera = false;
+                printf("\n" ROJO "DEBES OBTENER " VERDE "El Amuleto de Yendor" ROJO " PARA SALIR DE ESTE PISO." COLOR_DEFAULT);
+            } else if (jugador.escalera == true){
                 nuevoPiso(&juego);
                 jugador.escalera = false;
             }

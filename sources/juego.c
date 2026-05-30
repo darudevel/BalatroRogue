@@ -39,8 +39,8 @@ bool inicializarJuego(Juego *juego)
     //amuleto.y      = juego->jugador->y;
     //amuleto.tipo   = OBJ_AMULETO;
     //agregarObjetoInventario(&juego->jugador->inventario, amuleto);
-    juego->jugador->danio = 1000;
-    juego->jugador->hp=1000;
+    juego->jugador->danio      = 1000;
+    juego->jugador->hp         = 1000;
     #endif
 
     return true;
@@ -198,6 +198,25 @@ EstadoJuego tickJuego(Juego* juego, char tecla)
             return DERROTA;
     }
     return JUGANDO;
+}
+
+void ganarPartida(Juego *juego)
+{
+    system("cls");
+    printf(VERDE "\tVICTORIA!\n\n" COLOR_DEFAULT);
+    printf("ORO OBTENIDO: %dG\n", juego->jugador->oro);
+    printf("ENEMIGOS ASESINADOS: %d\n", juego->jugador->enemigos_asesinados);
+    printf("OBJETOS RECOGIDOS: %d\n", juego->jugador->objetos_recogidos);
+    printf("PISOS COMPLETADOS: %d\n", juego->nivel->profundidad);
+
+    printf("\nPRESIONE (x) PARA VOLVER AL MENU PRINCIPAL\n");
+    
+    char tecla;
+    while (true) {
+        esperarInput(&tecla);
+        if (tecla == 'x')
+            break;
+    }
 }
 
 void salirJuego(Juego* juego)

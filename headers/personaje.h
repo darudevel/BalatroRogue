@@ -19,6 +19,10 @@ typedef struct Jugador {
     int danio;
 
     bool escalera;
+    bool puede_ganar; // si tiene el amuleto
+    // Estadisticas
+    int enemigos_asesinados;
+    int objetos_recogidos;
 } Jugador;
 
 // Busca un casillero vacio de habitacion ('.') y situa al jugador ahi
@@ -31,6 +35,6 @@ void inicializarJugador(Jugador* jugador);
 // dx/dy pueden ser: -1 (izquierda/arriba), 1 (derecha/abajo) o 0 (quieto).
 bool moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy);
 
-int atacaraenemigo(Nivel* nivel, Enemigo* enemigo, Jugador* jugador);
+int atacarAEnemigo(Nivel* nivel, Enemigo* enemigo, Jugador* jugador);
 
 #endif // PERSONAJE_H_INCLUDED

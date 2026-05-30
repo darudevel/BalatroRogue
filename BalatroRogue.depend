@@ -5,3 +5,85 @@
 
 1779582093 source:c:\users\usuario\desktop\programación\tópicos de programación\tp rogue\clon 1\balatrorogue\sources\objetos.c
 
+1780094273 source:c:\users\marco\desktop\proyectos\balatrorogue-master\sources\helpers.c
+	<stdlib.h>
+	<stdio.h>
+	"../headers/helpers.h"
+
+1780094273 c:\users\marco\desktop\proyectos\balatrorogue-master\headers\helpers.h
+
+1780164805 source:c:\users\marco\desktop\proyectos\balatrorogue-master\sources\juego.c
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	"../headers/juego.h"
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/enemigos.h"
+	"../headers/matriz_dinamica.h"
+	"../headers/helpers.h"
+
+1780164070 c:\users\marco\desktop\proyectos\balatrorogue-master\headers\juego.h
+	<stdbool.h>
+
+1780162265 c:\users\marco\desktop\proyectos\balatrorogue-master\headers\mapa.h
+	"../headers/objetos.h"
+	"../headers/enemigos.h"
+
+1780094273 c:\users\marco\desktop\proyectos\balatrorogue-master\headers\objetos.h
+
+1780164835 c:\users\marco\desktop\proyectos\balatrorogue-master\headers\enemigos.h
+	<stdbool.h>
+
+1780162172 c:\users\marco\desktop\proyectos\balatrorogue-master\headers\personaje.h
+	<stdbool.h>
+	"enemigos.h"
+	"objetos.h"
+
+1780164822 source:c:\users\marco\desktop\proyectos\balatrorogue-master\sources\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<stdbool.h>
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/juego.h"
+	"../headers/helpers.h"
+
+1780094273 c:\users\marco\desktop\proyectos\balatrorogue-master\headers\matriz_dinamica.h
+	<stdlib.h>
+
+1780162393 source:c:\users\marco\desktop\proyectos\balatrorogue-master\sources\mapa.c
+	"../headers/mapa.h"
+	"../headers/matriz_dinamica.h"
+	"../headers/helpers.h"
+	"../headers/juego.h"
+	<stdio.h>
+
+1780094274 source:c:\users\marco\desktop\proyectos\balatrorogue-master\sources\matriz_dinamica.c
+	<stdlib.h>
+	"../headers/matriz_dinamica.h"
+
+1780155130 source:c:\users\marco\desktop\proyectos\balatrorogue-master\sources\objetos.c
+	<stdio.h>
+	<conio.h>
+	<stdlib.h>
+	"../headers/objetos.h"
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/helpers.h"
+
+1780156974 source:c:\users\marco\desktop\proyectos\balatrorogue-master\sources\personaje.c
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/helpers.h"
+	"../headers/enemigos.h"
+
+1780164070 source:c:\users\marco\desktop\proyectos\balatrorogue-master\sources\enemigos.c
+	<stdio.h>
+	<stdlib.h>
+	"../headers/enemigos.h"
+	"../headers/helpers.h"
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+

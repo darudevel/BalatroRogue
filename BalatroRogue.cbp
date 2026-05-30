@@ -31,11 +31,35 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="headers/enemigos.h" />
+		<Unit filename="headers/helpers.h" />
+		<Unit filename="headers/juego.h" />
 		<Unit filename="headers/mapa.h" />
-		<Unit filename="main.c">
+		<Unit filename="headers/matriz_dinamica.h" />
+		<Unit filename="headers/objetos.h" />
+		<Unit filename="headers/personaje.h" />
+		<Unit filename="sources/enemigos.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="mapa.c">
+		<Unit filename="sources/helpers.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sources/juego.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sources/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sources/mapa.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sources/matriz_dinamica.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sources/objetos.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sources/personaje.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

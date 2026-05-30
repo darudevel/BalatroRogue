@@ -25,6 +25,7 @@ bool inicializarJuego(Juego *juego)
 {
     // CONFIG DEFAULT:
     static Configuracion config = {ANCHO_DEFAULT, ALTO_DEFAULT, PROFUNDIDAD_MAX_DEFAULT, 0};
+    menuPrincipal(&config);
     // SI LLEGAMOS ACA, LE DIO A JUGAR
     (*juego->nivel) = inicializarNivel(&config);
     inicializarJugador(juego->jugador);

@@ -3,6 +3,8 @@
 
 #include "../headers/objetos.h"
 #include "../headers/enemigos.h"
+// Para romper la dependencia circular
+typedef struct Configuracion Configuracion;
 
 typedef struct
 {
@@ -32,7 +34,7 @@ typedef struct Nivel
 } Nivel;
 
 void inicializarMapa(Nivel* nivel);
-Nivel inicializarNivel(int ancho, int alto, int enemigos_reducidos, int profundidad_max);
+Nivel inicializarNivel(Configuracion* config);
 void generarNivel(Nivel* nivel);
 void generarEscalera(Nivel *nivel);
 void generarHabitacion(Nivel* nivel, Habitacion* h);

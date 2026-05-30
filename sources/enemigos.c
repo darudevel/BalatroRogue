@@ -67,12 +67,12 @@ void spawnearEnemigo(Nivel* nivel, Enemigo* enemigo)
         enemigo->x = nivel->habitaciones[secy][secx].x + dx;
         enemigo->y = nivel->habitaciones[secy][secx].y + dy;
         //si el el enemigo spawnea en el lugar del jugador volvemos a spawnear al enemigo
-    } while(nivel->mapa[enemigo->y][enemigo->x] != '.'); 
+    } while(nivel->mapa[enemigo->y][enemigo->x] != '.');
 
      nivel->mapa[enemigo->y][enemigo->x] = enemigo->representacion;
 }
 
-void localizarYMoverAJugador(Nivel* nivel, Enemigo* enemigo, Jugador* jugador)
+bool localizarYMoverAJugador(Nivel* nivel, Enemigo* enemigo, Jugador* jugador)
 {
     int jugador_x    = jugador->x;
     int jugador_y    = jugador->y;
@@ -81,25 +81,28 @@ void localizarYMoverAJugador(Nivel* nivel, Enemigo* enemigo, Jugador* jugador)
     int distancia_x  = jugador_x-enemigos_x;
     int distancia_y  = jugador_y-enemigos_y;
 
-    if ( (ABS(distancia_x) <= RANGO_VISION) || ABS(distancia_y) <= RANGO_VISION) {
-        return; // Dario: si no esta en el campo de vision del enemigo, no hacemos nada
+    if ( (ABS(distancia_x) >= RANGO_VISION) || ABS(distancia_y) >= RANGO_VISION) {
+        return false; // Dario: si no esta en el campo de vision del enemigo, no hacemos nada
     }
-    if ( (ABS(distancia_x) == 1) && (ABS(distancia_y) == 1) && (ABS(distancia_x + distancia_y) == 1)) {
+    if ( ((distancia_x == 0) && (ABS(distancia_y) == 1)) || ((ABS(distancia_x) == 1) && (distancia_y == 0))) {
         atacarAJugador(enemigo, jugador);
         // TODO: mover el cursor arriba a la izquierda del todo para mostrar estos logs
-        printf("Enemigo tipo %d ataco al jugador por %d daño\n", enemigo->tipo, enemigo->attack);
+        printf("Enemigo tipo %c ataco al jugador por %d danio\n", enemigo->representacion, enemigo->attack);
     }
-    enemigos_y += (distancia_y > 0 ? 1 : -1);
-    enemigos_x += (distancia_x > 0 ? 1 : -1);
+    else {
+        enemigos_y += (distancia_y > 1) ? 1 : (distancia_y < -1) ? -1 : 0;
+        enemigos_x += (distancia_x > 1) ? 1 : (distancia_x < -1) ? -1 : 0;
 
-    if(nivel->mapa[enemigos_y][enemigos_x]!='.')
-        return;
-    // si llegamos hasta aca, mover al enemigo
-    nivel->mapa[enemigo->y][enemigo->x]='.';
-    nivel->mapa[enemigos_y][enemigos_x] = enemigo->representacion;
+        if(nivel->mapa[enemigos_y][enemigos_x]!='.')
+            return false;
+        // si llegamos hasta aca, mover al enemigo
+        nivel->mapa[enemigo->y][enemigo->x]='.';
+        nivel->mapa[enemigos_y][enemigos_x] = enemigo->representacion;
 
-    enemigo->x = enemigos_x;
-    enemigo->y = enemigos_y;
+        enemigo->x = enemigos_x;
+        enemigo->y = enemigos_y;
+    }
+    return true;
 }
 
 void atacarAJugador(Enemigo* enemigo, Jugador* jugador)
@@ -111,7 +114,14 @@ void eleminarEnemigo(Nivel* nivel, Enemigo* enemigo)
 {
     nivel->mapa[enemigo->y][enemigo->x] = '.';
 
-    nivel->cant_enemigos--;
+    int pos = buscarEnemigoEnPosicion(nivel, enemigo->x, enemigo->y);
+    if(pos != -1){
+        for(pos++; pos < nivel->cant_enemigos; pos++){
+            nivel->vect_enemigos[pos-1] = nivel->vect_enemigos[pos];
+        }
+        nivel->cant_enemigos--;
+    }
+
     if(!nivel->cant_enemigos)
         free(nivel->vect_enemigos);
 }

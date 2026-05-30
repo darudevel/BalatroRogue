@@ -1,8 +1,9 @@
 #ifndef ENEMIGOS_H_INCLUDED
 #define ENEMIGOS_H_INCLUDED
 
-#define RANGO_VISION 5
+#define RANGO_VISION 6
 
+#include <stdbool.h>
 // Para romper la dependencia circular
 typedef struct Nivel Nivel;
 typedef struct Jugador Jugador;
@@ -27,7 +28,7 @@ typedef struct {
 } Enemigo;
 
 void spawnearEnemigo(Nivel* nivel, Enemigo* enemigo);
-void localizarYMoverAJugador(Nivel* nivel, Enemigo* enemigo, Jugador* jugador);
+bool localizarYMoverAJugador(Nivel* nivel, Enemigo* enemigo, Jugador* jugador);
 void atacarAJugador(Enemigo* enemigo, Jugador* jugador);
 void determinarCantidadEnemigos(Nivel* nivel);
 void determinarTipoEnemigo(Enemigo* enemigo);

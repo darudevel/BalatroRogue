@@ -46,16 +46,16 @@ void generarNivel(Nivel* nivel)
     conectarHabitaciones(nivel);
 }
 
-Nivel inicializarNivel(int ancho, int alto, int enemigos_reducidos, int profundidad_max)
+Nivel inicializarNivel(Configuracion* config)
 {
     Nivel nivel = {0};
-    nivel.ancho = ancho;
-    nivel.alto = alto;
+    nivel.ancho = config->ancho_nivel;
+    nivel.alto = config->alto_nivel;
     nivel.filas = 3; // Dario: hardcodeado, capaz podemos cambiarlo, pero no hay intenciones
     nivel.columnas = 3;
     nivel.profundidad = 1;
-    nivel.profundidad_max = profundidad_max;
-    nivel.enemigos_reducidos = enemigos_reducidos;
+    nivel.profundidad_max = config->profundidad_max;
+    nivel.enemigos_reducidos = config->enemigos_reducidos;
     nivel.mapa = (char**)crearMatriz(nivel.alto, nivel.ancho, sizeof(char));
     if (nivel.mapa == NULL)
     {

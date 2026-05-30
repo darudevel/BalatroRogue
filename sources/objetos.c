@@ -93,10 +93,10 @@ int seleccionarObjetoInventario(Inventario* inventario)
         for(int i = 0; i < inventario->cantidad; i++)
         {
             printf("%c) ", 'a' + i);
-            
+
             switch(inventario->objetos[i].tipo)
             {
-                
+
                 case OBJ_POCION:
                     printf("Una pocion");
                     break;
@@ -174,14 +174,14 @@ void generarObjetosNivel(Nivel* nivel)
         Habitacion hab = nivel->habitaciones[secy][secx];
 
         int x = h_numAleatorio(hab.x + 1, hab.x + hab.w - 2); //posicion interna de la habitacion
-        
+
         int y = h_numAleatorio(hab.y + 1, hab.y + hab.h - 2);
         if (!nivel->amuleto_generado && nivel->profundidad == nivel->profundidad_max) {
             nivel->objetos[i] = crearObjeto(OBJ_AMULETO, x, y, nivel->profundidad);
             nivel->amuleto_generado = 1;
             continue;
         }
-        
+
         int tipo = h_numAleatorio(OBJ_POCION, OBJ_ARMA); //tipo aleatorio de objeto (2->4)
         nivel->objetos[i] = crearObjeto(tipo, x, y, nivel->profundidad);
     }
@@ -205,7 +205,7 @@ void generarOroNivel(Nivel* nivel)
 
         Objeto oro = crearObjeto(OBJ_ORO, x, y, nivel->profundidad);
 
-        oro.valor = h_numAleatorio(0,50 + 10 * nivel->profundidad) + 2;
+        oro.valor = h_numAleatorio(0, 50 + 10 * nivel->profundidad) + 2;
 
         nivel->oro[i] = oro;
     }

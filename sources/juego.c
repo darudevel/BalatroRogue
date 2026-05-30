@@ -3,9 +3,11 @@
 #include <stdio.h>
 
 #include "../headers/juego.h"
-#include "../headers/helpers.h"
+#include "../headers/mapa.h"
 #include "../headers/personaje.h"
 #include "../headers/enemigos.h"
+#include "../headers/matriz_dinamica.h"
+#include "../headers/helpers.h"
 
 // DARIO: COMENTAR ESTA LINEA SI NO VAN A DEBUGGEAR
 #define DEBUG_BUILD
@@ -19,7 +21,7 @@
     #define PROFUNDIDAD_MAX_DEFAULT 1
 #endif
 
-void inicializarJuego(Juego *juego)
+bool inicializarJuego(Juego *juego)
 {
     Configuracion config = {0};
     // CONFIG DEFAULT:
@@ -29,32 +31,38 @@ void inicializarJuego(Juego *juego)
     config.profundidad_max = PROFUNDIDAD_MAX_DEFAULT;
     menuPrincipal(&config);
     // SI LLEGAMOS ACA, LE DIO A JUGAR
-    (*juego->nivel) = inicializarNivel(config.ancho_nivel, config.alto_nivel, config.enemigos_reducidos, config.profundidad_max); 
+    (*juego->nivel) = inicializarNivel(&config);
     inicializarJugador(juego->jugador);
     generarNivel(juego->nivel);
     generarObjetosNivel(juego->nivel);
     generarOroNivel(juego->nivel);
-    
+
     #ifdef DEBUG_BUILD
     Objeto amuleto;
     amuleto.activo = 1;
     amuleto.x      = juego->jugador->x;
     amuleto.y      = juego->jugador->y;
-    amuleto.tipo   = OBJ_AMULETO; 
+    amuleto.tipo   = OBJ_AMULETO;
     agregarObjetoInventario(&juego->jugador->inventario, amuleto);
     #endif
-    
+
     dibujarObjetosNivel(juego->nivel);
     spawnearJugador(juego->nivel, juego->jugador); // Posiciona al '@' en la primera habitacion
     determinarCantidadEnemigos(juego->nivel);
     for(int i=0; i<juego->nivel->cant_enemigos; i++)
         spawnearEnemigo(juego->nivel, juego->nivel->vect_enemigos+i);
+    system("cls");
+    mostrarNivel(juego->nivel);
+    printf("\n\n\tHP: "ROJO"%d/%d "COLOR_DEFAULT" | Str: %d | G: %d",
+            juego->jugador->hp, juego->jugador->hpMax, juego->jugador->danio, juego->jugador->oro);
+    printf("\nUsa WASD para moverte. Presiona 'x' para salir: ");
+    return true;
 }
 
 void menuPrincipal(Configuracion *config)
 {
     char tecla;
-    // Se tiene que poder modificar la profundidad maxima, la cantidad de enemigos (reducido/normal), y ancho alto inicial de mapa 
+    // Se tiene que poder modificar la profundidad maxima, la cantidad de enemigos (reducido/normal), y ancho alto inicial de mapa
     do {
         system("cls");
         printf( AZUL "\t\tBalatro Rogue\n\n" COLOR_DEFAULT);
@@ -131,4 +139,60 @@ int validarInput(int rango_min, int rango_max)
     }
 
     return input;
+}
+
+void esperarInput(char* tecla)
+{
+    *tecla = getch(); // Lee la tecla al instante sin pedir Enter
+}
+
+bool tickJuego(Juego* juego, char tecla)
+{
+    bool actualizar = false;
+
+    int dx = 0, dy = 0;
+    if (tecla == 'w' || tecla == 'W') dy = -1;
+    if (tecla == 's' || tecla == 'S') dy = 1;
+    if (tecla == 'a' || tecla == 'A') dx = -1;
+    if (tecla == 'd' || tecla == 'D') dx = 1;
+
+    if (tecla == 'x' || tecla == 'X') return false;
+
+    if(tecla == 'i' || tecla == 'I')
+    {
+        int indice = seleccionarObjetoInventario(&juego->jugador->inventario);
+        if(indice != -1)
+            usarObjetoInventario(juego->jugador, indice);
+        actualizar = true; //que actualice aunque abras el inventario y no te muevas
+    }
+    else
+    {
+        for(int i = 0; i < juego->nivel->cant_enemigos; i++)
+            actualizar |= localizarYMoverAJugador(juego->nivel, juego->nivel->vect_enemigos + i, juego->jugador);
+
+        if(dx != 0 || dy != 0) //que actualice cuando te muevas
+            actualizar |= moverJugador(juego->nivel, juego->jugador, dx, dy);
+    }
+
+    // Actualizar solo si se logro mover al personaje
+    if(actualizar)
+    {
+        system("cls");
+        mostrarNivel(juego->nivel); // Muestra el mapa con el '@' adentro
+
+        if(juego->jugador->hp > 0){
+            printf("\n\n\tHP: "ROJO"%d/%d "COLOR_DEFAULT" | Str: %d | G: %d",
+                juego->jugador->hp, juego->jugador->hpMax, juego->jugador->danio, juego->jugador->oro);
+            printf("\nUsa WASD para moverte. Presiona 'x' para volver al menu principal: ");
+        }
+        else
+            return false;
+    }
+    return true;
+}
+
+void salirJuego(Juego* juego)
+{
+    liberarMatriz((void**)juego->nivel->mapa, juego->nivel->alto);
+    h_limpiarColor(); // Dario: por si se nos pasa alguno
 }

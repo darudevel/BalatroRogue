@@ -26,7 +26,7 @@ void inicializarJugador(Jugador* jugador)
     inicializarInventario(&jugador->inventario);
 }
 
-char moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
+bool moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
 {
     int nx = jugador->x + dx;
     int ny = jugador->y + dy;
@@ -34,11 +34,18 @@ char moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
     //Evitamos desbordamientos fisicos de la matriz (limites del mapa)
     if (nx < 0 || nx >= nivel->ancho || ny < 0 || ny >= nivel->alto)
     {
-        return 0; // Movimiento invalido, no hace nada el jugador ya que no podra salir de los limites
+        return false; // Movimiento invalido, no hace nada el jugador ya que no podra salir de los limites
+    }
+    char destino = nivel->mapa[ny][nx];
+    // se movio hacia un enemigo, entonces, atacar
+    int pos = buscarEnemigoEnPosicion(nivel, nx, ny);
+    if(pos != -1)
+    {
+        atacaraenemigo(nivel, nivel->vect_enemigos + pos, jugador);
+        return true;
     }
     //Comprobamos si el casillero de destino es transitable
-    char destino = nivel->mapa[ny][nx];
-    if (destino == '.'     // Piso
+    else if (destino == '.'     // Piso
         || destino == '#'  // Pasillo
         || destino == '+'  // Puerta
         || destino == '*'  // Amuleto
@@ -70,23 +77,19 @@ char moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
         // Dibujamos al jugador en su nueva posicion en el mapa
         nivel->mapa[ny][nx] = '@';
 
-        return 1; // Se logro mover al jugador
+        return true; // Se logro mover al jugador
     }
-    else if(destino == 'E' || destino == 'G') // Si se movio hacia un enemigo, atacar
-    {
-        int pos = buscarEnemigoEnPosicion(nivel, nx, ny);
-        atacaraenemigo(nivel, nivel->vect_enemigos + pos, jugador);
-    }
-    return 0;
+    return false;
 }
 
 int atacaraenemigo(Nivel* nivel, Enemigo* enemigo, Jugador* jugador)
 {
     enemigo->hp -= jugador->danio;
 
-    if(enemigo->hp <= 0)
-        return 0;
+    if(enemigo->hp <= 0){
+        eleminarEnemigo(nivel, enemigo);
+        return 1;
+    }
 
-    eleminarEnemigo(nivel, enemigo);
-    return 1;
+        return 0;
 }

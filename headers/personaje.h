@@ -17,6 +17,8 @@ typedef struct Jugador {
     int oro;
     Inventario inventario;
     int danio;
+
+    bool escalera;
 } Jugador;
 
 // Busca un casillero vacio de habitacion ('.') y situa al jugador ahi

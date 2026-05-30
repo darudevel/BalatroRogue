@@ -19,14 +19,18 @@ int main()
     juego.jugador = &jugador;
 
     bool bool_juego = true;
-    bool bool_partida = false;
+    EstadoJuego estado_partida = JUGANDO;
     char tecla;
     while(bool_juego){
-        bool_partida = inicializarJuego(&juego);
+        estado_partida = inicializarJuego(&juego);
 
-        while(bool_partida){
+        while(estado_partida){
             esperarInput(&tecla);
-            bool_partida = tickJuego(&juego, tecla);
+            estado_partida = tickJuego(&juego, tecla);
+            if(jugador.escalera == true){
+                nuevoPiso(&juego);
+                jugador.escalera = false;
+            }
         }
 
         if(jugador.hp <= 0){

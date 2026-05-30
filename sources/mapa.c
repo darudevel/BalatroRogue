@@ -69,6 +69,26 @@ Nivel inicializarNivel(Configuracion* config)
     return nivel;
 }
 
+void generarEscalera(Nivel *nivel)
+{
+    if(nivel->profundidad == nivel->profundidad_max)
+        return;
+
+    int x, y;
+
+    do{
+        int sect_hab_x = h_numAleatorio(0, nivel->filas - 1);
+        int sect_hab_y = h_numAleatorio(0, nivel->columnas - 1);
+        int hab_x = h_numAleatorio(1, nivel->habitaciones[sect_hab_y][sect_hab_x].w - 2);
+        int hab_y = h_numAleatorio(1, nivel->habitaciones[sect_hab_y][sect_hab_x].h - 2);
+
+        x = nivel->habitaciones[sect_hab_y][sect_hab_x].x + hab_x;
+        y = nivel->habitaciones[sect_hab_y][sect_hab_x].y + hab_y;
+    }while(nivel->mapa[y][x] != '.');
+
+    nivel->mapa[y][x] = '%';
+}
+
 void mostrarNivel(Nivel* nivel)
 {
     for (int y = 0; y < nivel->alto; y++) {

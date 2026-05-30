@@ -23,6 +23,7 @@ void inicializarJugador(Jugador* jugador)
     jugador->hpMax = 100;
     jugador->oro = 0;
     jugador->danio = 40;
+    jugador->escalera = false;
     inicializarInventario(&jugador->inventario);
 }
 
@@ -43,6 +44,10 @@ bool moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
     {
         atacaraenemigo(nivel, nivel->vect_enemigos + pos, jugador);
         return true;
+    }
+    else if (destino == '%'){
+        jugador->escalera = true;
+        return false;
     }
     //Comprobamos si el casillero de destino es transitable
     else if (destino == '.'     // Piso

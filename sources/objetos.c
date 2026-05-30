@@ -26,18 +26,18 @@ Objeto crearObjeto(TipoObjeto tipo, int x, int y, int profundidad_actual)
     {
         case OBJ_ORO:
             objeto.representacion = '$';
-            objeto.valor= h_numAleatorio(50, 50 + 10 * profundidad_actual); //Originalmente la cuenta q hacia del oro era
+            objeto.valor= 50 + h_numAleatorio(0, 10 * profundidad_actual); //Originalmente la cuenta q hacia del oro era
             break;                               //random(50 + 10 * nivel) + 2, osea q iba dependiendo del nivel
                                                 // se puede modificar una vez establecido un valor en los niveles
         case OBJ_POCION:
             objeto.representacion = '!';
-            objeto.valor = 20; //Cura 20 de vida (si la vida esta al Maximo, aumenta la vidaMax). Puede ser modificado por otro valor
+            objeto.valor = (20 + 6 * profundidad_actual); //Cura 20 de vida (si la vida esta al Maximo, aumenta la vidaMax). Puede ser modificado por otro valor
             break;
 
         case OBJ_COMIDA:
             objeto.representacion = ':';
             objeto.valor = (15 + 5 * profundidad_actual); // Cura 15 de vida. Puede ser modificado por otro valor
-                                                          // Dario: ahora le sumamos por profundidad
+            break;                                        // Dario: ahora le sumamos por profundidad
             break;
 
         case OBJ_ARMA:
@@ -72,6 +72,7 @@ int agregarObjetoInventario(Inventario* inventario, Objeto objeto)
 
     return 1;
 }
+
 int seleccionarObjetoInventario(Inventario* inventario)
 {
     char tecla;
@@ -165,6 +166,8 @@ void dibujarObjetosNivel(Nivel* nivel)
 void generarObjetosNivel(Nivel* nivel)
 {
     nivel->cant_objetos = h_numAleatorio(4, MAX_OBJETOS_NIVEL);
+
+
 
     for(int i = 0; i < nivel->cant_objetos; i++)
     {

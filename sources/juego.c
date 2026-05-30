@@ -29,18 +29,31 @@ bool inicializarJuego(Juego *juego)
     // SI LLEGAMOS ACA, LE DIO A JUGAR
     (*juego->nivel) = inicializarNivel(&config);
     inicializarJugador(juego->jugador);
+
+    nuevoPiso(juego);
+
+    #ifdef DEBUG_BUILD
+    //Objeto amuleto;
+    //amuleto.activo = 1;
+    //amuleto.x      = juego->jugador->x;
+    //amuleto.y      = juego->jugador->y;
+    //amuleto.tipo   = OBJ_AMULETO;
+    //agregarObjetoInventario(&juego->jugador->inventario, amuleto);
+    juego->jugador->danio = 1000;
+    juego->jugador->hp=1000;
+    #endif
+
+    return true;
+}
+
+void nuevoPiso(Juego* juego)
+{
+    juego->nivel->profundidad++;
+
     generarNivel(juego->nivel);
     generarObjetosNivel(juego->nivel);
     generarOroNivel(juego->nivel);
-
-    #ifdef DEBUG_BUILD
-    Objeto amuleto;
-    amuleto.activo = 1;
-    amuleto.x      = juego->jugador->x;
-    amuleto.y      = juego->jugador->y;
-    amuleto.tipo   = OBJ_AMULETO;
-    agregarObjetoInventario(&juego->jugador->inventario, amuleto);
-    #endif
+    generarEscalera(juego->nivel);
 
     dibujarObjetosNivel(juego->nivel);
     spawnearJugador(juego->nivel, juego->jugador); // Posiciona al '@' en la primera habitacion
@@ -52,7 +65,6 @@ bool inicializarJuego(Juego *juego)
     printf("\n\n\tHP: "ROJO"%d/%d "COLOR_DEFAULT" | Str: %d | G: %d",
             juego->jugador->hp, juego->jugador->hpMax, juego->jugador->danio, juego->jugador->oro);
     printf("\nUsa WASD para moverte. Presiona 'x' para salir: ");
-    return true;
 }
 
 void menuPrincipal(Configuracion *config)
@@ -105,13 +117,13 @@ void menuConfiguracion(Configuracion *config)
             break;
         case 'b':
             system("cls");
-            printf("INGRESE EL ANCHO DEL MAPA (min: %d - max: %d): ", 30, 120);
-            config->ancho_nivel = validarInput(30, 120);
+            printf("INGRESE EL ANCHO DEL MAPA (min: %d - max: %d): ", 20, 120);
+            config->ancho_nivel = validarInput(20, 120);
             break;
         case 'c':
             system("cls");
-            printf("INGRESE EL ALTO DEL MAPA (min: %d - max: %d): ", 10, 40);
-            config->alto_nivel = validarInput(10, 40);
+            printf("INGRESE EL ALTO DEL MAPA (min: %d - max: %d): ", 20, 40);
+            config->alto_nivel = validarInput(20, 40);
             break;
         case 'd':
             system("cls");
@@ -142,7 +154,8 @@ void esperarInput(char* tecla)
     *tecla = getch(); // Lee la tecla al instante sin pedir Enter
 }
 
-bool tickJuego(Juego* juego, char tecla)
+// Devuelve si la partida sigue o termina
+EstadoJuego tickJuego(Juego* juego, char tecla)
 {
     bool actualizar = false;
 
@@ -152,7 +165,7 @@ bool tickJuego(Juego* juego, char tecla)
     if (tecla == 'a' || tecla == 'A') dx = -1;
     if (tecla == 'd' || tecla == 'D') dx = 1;
 
-    if (tecla == 'x' || tecla == 'X') return false;
+    if (tecla == 'x' || tecla == 'X') return DERROTA;
 
     if(tecla == 'i' || tecla == 'I')
     {
@@ -182,9 +195,9 @@ bool tickJuego(Juego* juego, char tecla)
             printf("\nUsa WASD para moverte. Presiona 'x' para volver al menu principal: ");
         }
         else
-            return false;
+            return DERROTA;
     }
-    return true;
+    return JUGANDO;
 }
 
 void salirJuego(Juego* juego)

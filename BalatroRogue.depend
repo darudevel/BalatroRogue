@@ -87,3 +87,85 @@
 	"../headers/mapa.h"
 	"../headers/personaje.h"
 
+1780241870 source:c:\users\domin\onedrive\documentos\clon\balatrorogue\sources\enemigos.c
+	<stdio.h>
+	<stdlib.h>
+	"../headers/enemigos.h"
+	"../headers/helpers.h"
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+
+1780241870 c:\users\domin\onedrive\documentos\clon\balatrorogue\headers\enemigos.h
+	<stdbool.h>
+
+1780241870 c:\users\domin\onedrive\documentos\clon\balatrorogue\headers\helpers.h
+
+1780241870 c:\users\domin\onedrive\documentos\clon\balatrorogue\headers\mapa.h
+	"../headers/objetos.h"
+	"../headers/enemigos.h"
+
+1780241870 c:\users\domin\onedrive\documentos\clon\balatrorogue\headers\objetos.h
+
+1780241870 c:\users\domin\onedrive\documentos\clon\balatrorogue\headers\personaje.h
+	<stdbool.h>
+	"enemigos.h"
+	"objetos.h"
+
+1780241870 source:c:\users\domin\onedrive\documentos\clon\balatrorogue\sources\helpers.c
+	<stdlib.h>
+	<stdio.h>
+	"../headers/helpers.h"
+
+1780241870 source:c:\users\domin\onedrive\documentos\clon\balatrorogue\sources\juego.c
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	"../headers/juego.h"
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/enemigos.h"
+	"../headers/matriz_dinamica.h"
+	"../headers/helpers.h"
+
+1780241870 c:\users\domin\onedrive\documentos\clon\balatrorogue\headers\juego.h
+	<stdbool.h>
+
+1780241870 c:\users\domin\onedrive\documentos\clon\balatrorogue\headers\matriz_dinamica.h
+	<stdlib.h>
+
+1780241870 source:c:\users\domin\onedrive\documentos\clon\balatrorogue\sources\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<stdbool.h>
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/juego.h"
+	"../headers/helpers.h"
+
+1780241870 source:c:\users\domin\onedrive\documentos\clon\balatrorogue\sources\mapa.c
+	"../headers/mapa.h"
+	"../headers/matriz_dinamica.h"
+	"../headers/helpers.h"
+	"../headers/juego.h"
+	<stdio.h>
+
+1780241870 source:c:\users\domin\onedrive\documentos\clon\balatrorogue\sources\matriz_dinamica.c
+	<stdlib.h>
+	"../headers/matriz_dinamica.h"
+
+1780241870 source:c:\users\domin\onedrive\documentos\clon\balatrorogue\sources\objetos.c
+	<stdio.h>
+	<conio.h>
+	<stdlib.h>
+	"../headers/objetos.h"
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/helpers.h"
+
+1780241870 source:c:\users\domin\onedrive\documentos\clon\balatrorogue\sources\personaje.c
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/helpers.h"
+	"../headers/enemigos.h"
+

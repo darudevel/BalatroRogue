@@ -50,7 +50,7 @@ bool moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
     }
     else if (destino == '%'){
         jugador->escalera = true;
-        return false;
+        return true;
     }
     //Comprobamos si el casillero de destino es transitable
     else if (destino == '.'     // Piso
@@ -60,7 +60,8 @@ bool moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
         || destino == '$'  // Oro
         || destino == '!'  // Pocion
         || destino == ':'  // Comida
-        || destino == ')') // Arma
+        || destino == ')'  // Arma
+        || destino == '%') // Escalera
     {
         // EMA: Mas o menos se podria explicar que guardamos el caracter donde esta parado el jugador.
         // Como el jugador pisa cosas, al salir de un casillero debemos restaurar lo que habia previamente

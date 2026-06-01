@@ -167,23 +167,21 @@ void generarObjetosNivel(Nivel* nivel)
 {
     nivel->cant_objetos = h_numAleatorio(4, MAX_OBJETOS_NIVEL);
 
-
-
     for(int i = 0; i < nivel->cant_objetos; i++)
     {
         int x, y;
+
         do {
             int secy = h_numAleatorio(0, nivel->filas - 1); //habitacion aleatoria
             int secx = h_numAleatorio(0, nivel->columnas - 1);
-    
+
             Habitacion hab = nivel->habitaciones[secy][secx];
-    
+
             x = h_numAleatorio(hab.x + 1, hab.x + hab.w - 2); //posicion interna de la habitacion
             y = h_numAleatorio(hab.y + 1, hab.y + hab.h - 2);
         } while (nivel->mapa[y][x] != '.');
 
-
-        if (!nivel->amuleto_generado && nivel->profundidad == nivel->profundidad_max) {
+        if (nivel->profundidad == nivel->profundidad_max && !nivel->amuleto_generado) {
             nivel->objetos[i] = crearObjeto(OBJ_AMULETO, x, y, nivel->profundidad);
             nivel->amuleto_generado = 1;
             continue;
@@ -204,9 +202,9 @@ void generarOroNivel(Nivel* nivel)
         do {
             int secy = h_numAleatorio(0, nivel->filas - 1); //habitacion aleatoria
             int secx = h_numAleatorio(0, nivel->columnas - 1);
-    
+
             Habitacion hab = nivel->habitaciones[secy][secx];
-    
+
             x = h_numAleatorio(hab.x + 1, hab.x + hab.w - 2); //posicion interna de la habitacion
             y = h_numAleatorio(hab.y + 1, hab.y + hab.h - 2);
         } while (nivel->mapa[y][x] != '.');

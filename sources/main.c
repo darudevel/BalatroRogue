@@ -35,14 +35,12 @@ int main()
             // no hace falta checkear si estas en el piso mas bajo porque esta implicito en que este generado el amuleto
             if (jugador.escalera && jugador.puede_ganar) {
                 estado_partida = VICTORIA;
-                jugador.escalera = false;
-            } else if (jugador.escalera == true && nivel.profundidad == nivel.profundidad_max) { // Si llegas aca, no podes ganar y pisaste la escalera
-                jugador.escalera = false;
+            } else if (jugador.escalera && nivel.profundidad == nivel.profundidad_max) { // Si llegas aca, no podes ganar y pisaste la escalera
                 printf("\n" ROJO "DEBES OBTENER " VERDE "El Amuleto de Yendor" ROJO " PARA SALIR DE ESTE PISO." COLOR_DEFAULT);
-            } else if (jugador.escalera == true){
+            } else if (jugador.escalera){
                 nuevoPiso(&juego);
-                jugador.escalera = false;
             }
+            jugador.escalera = false;
         }
 
         if(jugador.hp <= 0){

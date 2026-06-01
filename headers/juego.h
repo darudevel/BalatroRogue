@@ -24,7 +24,7 @@ typedef struct Configuracion{
     int enemigos_reducidos;
 } Configuracion;
 
-bool inicializarJuego(Juego *juego);
+EstadoJuego inicializarJuego(Juego *juego);
 void nuevoPiso(Juego* juego);
 void menuPrincipal(Configuracion *config);
 void menuConfiguracion(Configuracion *config);

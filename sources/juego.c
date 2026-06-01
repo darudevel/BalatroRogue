@@ -10,7 +10,7 @@
 #include "../headers/helpers.h"
 
 // DARIO: COMENTAR ESTA LINEA SI NO VAN A DEBUGGEAR
-#define DEBUG_BUILD
+//#define DEBUG_BUILD
 
 #define TECLA_ESCAPE 27
 #define ANCHO_DEFAULT 80
@@ -21,7 +21,7 @@
     #define PROFUNDIDAD_MAX_DEFAULT 1
 #endif
 
-bool inicializarJuego(Juego *juego)
+EstadoJuego inicializarJuego(Juego *juego)
 {
     // CONFIG DEFAULT:
     static Configuracion config = {ANCHO_DEFAULT, ALTO_DEFAULT, PROFUNDIDAD_MAX_DEFAULT, 0};
@@ -43,7 +43,7 @@ bool inicializarJuego(Juego *juego)
     juego->jugador->hp         = 1000;
     #endif
 
-    return true;
+    return JUGANDO;
 }
 
 void nuevoPiso(Juego* juego)
@@ -91,7 +91,7 @@ void menuPrincipal(Configuracion *config)
         }
     } while (tecla != 'x');
 
-    exit(1); // Dario: como no reservamos memoria hasta este punto nos podemos permitir esto
+    exit(0); // Dario: como no reservamos memoria hasta este punto nos podemos permitir esto
 }
 
 void menuConfiguracion(Configuracion *config)
@@ -210,7 +210,7 @@ void ganarPartida(Juego *juego)
     printf("PISOS COMPLETADOS: %d\n", juego->nivel->profundidad);
 
     printf("\nPRESIONE (x) PARA VOLVER AL MENU PRINCIPAL\n");
-    
+
     char tecla;
     while (true) {
         esperarInput(&tecla);

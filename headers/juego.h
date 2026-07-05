@@ -28,6 +28,7 @@ EstadoJuego inicializarJuego(Juego *juego);
 void nuevoPiso(Juego* juego);
 void menuPrincipal(Configuracion *config);
 void menuConfiguracion(Configuracion *config);
+void menuCaracteres(void);
 int validarInput(int rango_min, int rango_max);
 void esperarInput(char* tecla);
 EstadoJuego tickJuego(Juego* juego, char tecla);

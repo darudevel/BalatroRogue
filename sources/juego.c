@@ -76,6 +76,7 @@ void menuPrincipal(Configuracion *config)
         printf( AZUL "\t\tBalatro Rogue\n\n" COLOR_DEFAULT);
         printf("a) JUGAR\n");
         printf("b) CONFIGURACION\n");
+        printf("c) MENU DE CARACTERES\n");
         printf("x) SALIR\n");
 
         tecla = getch();
@@ -85,6 +86,9 @@ void menuPrincipal(Configuracion *config)
                 return; // jugar con la configuracion actual, puede ser la default
             case 'b':
                 menuConfiguracion(config);
+                break;
+            case 'c':
+                menuCaracteres();
                 break;
             default:
                 break;
@@ -112,8 +116,8 @@ void menuConfiguracion(Configuracion *config)
         switch (tecla) {
         case 'a':
             system("cls");
-            printf("INGRESE LA PROFUNDIDAD MAXIMA (min: %d - max: %d): ", 1, 20);
-            config->profundidad_max = validarInput(1,20);
+            printf("INGRESE LA PROFUNDIDAD MAXIMA (min: %d - max: %d): ", 2, 26);
+            config->profundidad_max = validarInput(2,26);
             break;
         case 'b':
             system("cls");
@@ -134,6 +138,40 @@ void menuConfiguracion(Configuracion *config)
             break;
         }
     } while (tecla != 'x');
+}
+
+void menuCaracteres(void)
+{
+    char tecla;
+
+    do{
+        system("cls");
+        printf("VARIOS\n");
+        printf("'@': Personaje\n");
+        printf("'.': Piso\n");
+        printf("'|' o '-': Paredes\n");
+        printf("'#': Pasillos\n");
+        printf("'+': Puertas\n");
+        printf("'%': Escalreas, permiten bajar de piso");
+
+        printf("\nOBJETOS\n");
+        printf("')': Armas, aumento el daño del jugador si la misma es mayor al daño actual.\n");
+        printf("'!': Pocion, recupera el hp o aumenta el hp maximo si este ya esta lleno.\n");
+        printf("':': Comida, recupera vida y sacia el hambre.\n");
+        printf("'$': Monedas\n");
+        printf("'" VERDE "*" COLOR_DEFAULT "': Amuleto de Yandor, obtener este amuleto es el objetivo final del juego\n"); // Puede ser que haya escrito Yandor mal xd
+
+        printf("\nENEMIGOS\n");
+        printf("'K': Kobold\n");
+        printf("'L': Leprechaun\n");
+        printf("'$': Mimico\n");
+        printf("'N': Nymph\n");
+        printf("'O': Orco\n");
+
+        printf("\nPRESIONE X PARA VOLVER");
+
+        tecla = getch();
+    }while(tecla != 'x');
 }
 
 int validarInput(int rango_min, int rango_max)

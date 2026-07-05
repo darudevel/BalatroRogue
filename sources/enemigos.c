@@ -32,7 +32,7 @@ void determinarTipoEnemigo(Enemigo* enemigo)
         enemigo->hpMax  = 150;
         enemigo->hp     = 150;
         enemigo->attack = 10;
-        enemigo->representacion = 'M'; 
+        enemigo->representacion = '$'; // TODO: ver si esto queda bien
         break;
     case NYMPH:
         enemigo->hpMax  = 200;

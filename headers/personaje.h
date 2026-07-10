@@ -2,6 +2,7 @@
 #define PERSONAJE_H_INCLUDED
 
 #include <stdbool.h>
+#include <time.h>
 #include "enemigos.h"
 #include "objetos.h"
 // Para romper la dependencia circular
@@ -13,6 +14,11 @@ typedef struct Jugador {
 
     int hp;
     int hpMax;
+
+    int hambre;
+    int hambre_max;
+    int tick_hambre;
+    int proximo_tick_hambre;
 
     int oro;
     Inventario inventario;

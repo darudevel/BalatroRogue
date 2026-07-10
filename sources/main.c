@@ -44,8 +44,8 @@ int main()
         }
 
         if(jugador.hp <= 0){
-            printf("\n\n\tHP: "ROJO"%d/%d "COLOR_DEFAULT" | Str: %d | G: %d",
-                0, jugador.hpMax, jugador.danio, jugador.oro);
+            printf("\n\n\tHP: "ROJO"%d/%d "COLOR_DEFAULT" | Str: %d | G: %d | H: %d/%d",
+                0, jugador.hpMax, jugador.danio, jugador.oro, jugador.hambre, jugador.hambre_max);
             printf("\n\t"ROJO"HAS MUERTO"COLOR_DEFAULT);
             printf("\nPresione cualquier tecla para volver al menu principal: ");
             esperarInput(&tecla);

@@ -62,8 +62,8 @@ void nuevoPiso(Juego* juego)
         spawnearEnemigo(juego->nivel, juego->nivel->vect_enemigos+i);
     system("cls");
     mostrarNivel(juego->nivel);
-    printf("\n\n\tHP: "ROJO"%d/%d "COLOR_DEFAULT" | Str: %d | G: %d",
-            juego->jugador->hp, juego->jugador->hpMax, juego->jugador->danio, juego->jugador->oro);
+    printf("\n\n\tHP: "ROJO"%d/%d "COLOR_DEFAULT" | Str: %d | G: %d | H: %d/%d",
+            juego->jugador->hp, juego->jugador->hpMax, juego->jugador->danio, juego->jugador->oro, juego->jugador->hambre, juego->jugador->hambre_max);
     printf("\nUsa WASD para moverte. Presiona 'x' para salir: ");
 }
 
@@ -152,14 +152,14 @@ void menuCaracteres(void)
         printf("'|' o '-': Paredes\n");
         printf("'#': Pasillos\n");
         printf("'+': Puertas\n");
-        printf("'%': Escalreas, permiten bajar de piso");
+        printf("'\%': Escaleras, permiten bajar de piso");
 
         printf("\nOBJETOS\n");
-        printf("')': Armas, aumento el daño del jugador si la misma es mayor al daño actual.\n");
+        printf("')': Armas, aumenta el ataque del jugador si el ataque del arma es mayor al ataque actual.\n");
         printf("'!': Pocion, recupera el hp o aumenta el hp maximo si este ya esta lleno.\n");
         printf("':': Comida, recupera vida y sacia el hambre.\n");
         printf("'$': Monedas\n");
-        printf("'" VERDE "*" COLOR_DEFAULT "': Amuleto de Yandor, obtener este amuleto es el objetivo final del juego\n"); // Puede ser que haya escrito Yandor mal xd
+        printf("'" VERDE "*" COLOR_DEFAULT "': Amuleto de Yendor, obtener este amuleto es el objetivo final del juego\n"); // Puede ser que haya escrito Yandor mal xd
 
         printf("\nENEMIGOS\n");
         printf("'K': Kobold\n");
@@ -226,10 +226,21 @@ EstadoJuego tickJuego(Juego* juego, char tecla)
     {
         system("cls");
         mostrarNivel(juego->nivel); // Muestra el mapa con el '@' adentro
+        juego->jugador->tick_hambre++;
+        if (juego->jugador->tick_hambre == juego->jugador->proximo_tick_hambre) {
+            juego->jugador->hambre++;
+            juego->jugador->proximo_tick_hambre = h_numAleatorio(15, 20); // Cada 15/20 ticks, un tick de hambre
+            juego->jugador->tick_hambre = 0;
+        }
 
         if(juego->jugador->hp > 0){
-            printf("\n\n\tHP: "ROJO"%d/%d "COLOR_DEFAULT" | Str: %d | G: %d",
-                juego->jugador->hp, juego->jugador->hpMax, juego->jugador->danio, juego->jugador->oro);
+            printf("\n\n\tHP: "ROJO"%d/%d "COLOR_DEFAULT" | Str: %d | G: %d | H: %d/%d",
+                juego->jugador->hp,
+                juego->jugador->hpMax,
+                juego->jugador->danio,
+                juego->jugador->oro,
+                juego->jugador->hambre,
+                juego->jugador->hambre_max);
             printf("\nUsa WASD para moverte. Presiona 'x' para volver al menu principal: ");
         }
         else

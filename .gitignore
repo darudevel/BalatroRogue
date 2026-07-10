@@ -1,6 +1,7 @@
 BalatroRogue.layout
 obj/*
 *.exe
+obj/
 # Dario: esto es mio!
 Makefile
 por_hacer.txt

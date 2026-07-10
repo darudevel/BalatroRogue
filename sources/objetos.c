@@ -315,8 +315,14 @@ int usarObjetoInventario(Jugador* jugador, int indice) // Dario: esto no necesit
         case OBJ_COMIDA:
             jugador->hp += obj.valor;
 
-            if(jugador->hp > jugador->hpMax)
+            if (jugador->hp > jugador->hpMax)
                 jugador->hp = jugador->hpMax;
+
+            if (jugador->hambre <= 4)
+                jugador->hambre = 0;
+            else
+                jugador->hambre -= 4;
+
             break;
 
         case OBJ_ARMA:

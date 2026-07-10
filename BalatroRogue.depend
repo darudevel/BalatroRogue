@@ -169,3 +169,86 @@
 	"../headers/helpers.h"
 	"../headers/enemigos.h"
 
+1783719853 source:c:\users\dario\desktop\aplicachione\codigos\balatrorogue\sources\enemigos.c
+	<stdio.h>
+	<stdlib.h>
+	"../headers/enemigos.h"
+	"../headers/helpers.h"
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+
+1783719853 c:\users\dario\desktop\aplicachione\codigos\balatrorogue\headers\enemigos.h
+	<stdbool.h>
+
+1783719853 c:\users\dario\desktop\aplicachione\codigos\balatrorogue\headers\helpers.h
+
+1783719853 c:\users\dario\desktop\aplicachione\codigos\balatrorogue\headers\mapa.h
+	"../headers/objetos.h"
+	"../headers/enemigos.h"
+
+1783719853 c:\users\dario\desktop\aplicachione\codigos\balatrorogue\headers\objetos.h
+
+1783720879 c:\users\dario\desktop\aplicachione\codigos\balatrorogue\headers\personaje.h
+	<stdbool.h>
+	<time.h>
+	"enemigos.h"
+	"objetos.h"
+
+1783719853 source:c:\users\dario\desktop\aplicachione\codigos\balatrorogue\sources\helpers.c
+	<stdlib.h>
+	<stdio.h>
+	"../headers/helpers.h"
+
+1783721331 source:c:\users\dario\desktop\aplicachione\codigos\balatrorogue\sources\juego.c
+	<stdlib.h>
+	<conio.h>
+	<stdio.h>
+	"../headers/juego.h"
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/enemigos.h"
+	"../headers/matriz_dinamica.h"
+	"../headers/helpers.h"
+
+1783719853 c:\users\dario\desktop\aplicachione\codigos\balatrorogue\headers\juego.h
+	<stdbool.h>
+
+1783719853 c:\users\dario\desktop\aplicachione\codigos\balatrorogue\headers\matriz_dinamica.h
+	<stdlib.h>
+
+1783720984 source:c:\users\dario\desktop\aplicachione\codigos\balatrorogue\sources\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<stdbool.h>
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/juego.h"
+	"../headers/helpers.h"
+
+1783719853 source:c:\users\dario\desktop\aplicachione\codigos\balatrorogue\sources\mapa.c
+	"../headers/mapa.h"
+	"../headers/matriz_dinamica.h"
+	"../headers/helpers.h"
+	"../headers/juego.h"
+	<stdio.h>
+
+1783719853 source:c:\users\dario\desktop\aplicachione\codigos\balatrorogue\sources\matriz_dinamica.c
+	<stdlib.h>
+	"../headers/matriz_dinamica.h"
+
+1783721565 source:c:\users\dario\desktop\aplicachione\codigos\balatrorogue\sources\objetos.c
+	<stdio.h>
+	<conio.h>
+	<stdlib.h>
+	"../headers/objetos.h"
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/helpers.h"
+
+1783721320 source:c:\users\dario\desktop\aplicachione\codigos\balatrorogue\sources\personaje.c
+	"../headers/mapa.h"
+	"../headers/personaje.h"
+	"../headers/helpers.h"
+	"../headers/enemigos.h"
+

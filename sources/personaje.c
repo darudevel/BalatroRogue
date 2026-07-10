@@ -27,6 +27,10 @@ void inicializarJugador(Jugador* jugador)
     jugador->puede_ganar = false;
     jugador->objetos_recogidos = 0;
     jugador->enemigos_asesinados = 0;
+    jugador->hambre = 0;
+    jugador->hambre_max = 20;
+    jugador->tick_hambre = 0;
+    jugador->proximo_tick_hambre = 20; // Empezamos desde el limite superior
     inicializarInventario(&jugador->inventario);
 }
 
@@ -48,7 +52,7 @@ bool moverJugador(Nivel* nivel, Jugador* jugador, int dx, int dy)
         atacarAEnemigo(nivel, nivel->vect_enemigos + pos, jugador);
         return true;
     }
-    else if (destino == '%'){
+    else if (destino == '%') {
         jugador->escalera = true;
         return true;
     }

@@ -152,7 +152,7 @@ void menuCaracteres(void)
         printf("'|' o '-': Paredes\n");
         printf("'#': Pasillos\n");
         printf("'+': Puertas\n");
-        printf("'\%': Escaleras, permiten bajar de piso");
+        printf("'%c': Escaleras, permiten bajar de piso\n", '%');
 
         printf("\nOBJETOS\n");
         printf("')': Armas, aumenta el ataque del jugador si el ataque del arma es mayor al ataque actual.\n");
@@ -167,6 +167,12 @@ void menuCaracteres(void)
         printf("'$': Mimico\n");
         printf("'N': Nymph\n");
         printf("'O': Orco\n");
+
+        printf("\nBARRA DE ESTADO\n");
+        printf("HP: Vida Actual/Vida Maxima\n");
+        printf("Str: Daño Actual\n");
+        printf("G: Oro Obtenido\n");
+        printf("H: Hambre Actual/Hambre Maxima. Cuando el hambre alcanze el maximo, el jugador recibira daño cada cierta cantidad de movimientos\n");
 
         printf("\nPRESIONE X PARA VOLVER");
 
@@ -228,7 +234,10 @@ EstadoJuego tickJuego(Juego* juego, char tecla)
         mostrarNivel(juego->nivel); // Muestra el mapa con el '@' adentro
         juego->jugador->tick_hambre++;
         if (juego->jugador->tick_hambre == juego->jugador->proximo_tick_hambre) {
-            juego->jugador->hambre++;
+            if (juego->jugador->hambre < juego->jugador->hambre_max)
+                juego->jugador->hambre++;
+            else
+                juego->jugador->hp -= 5;
             juego->jugador->proximo_tick_hambre = h_numAleatorio(15, 20); // Cada 15/20 ticks, un tick de hambre
             juego->jugador->tick_hambre = 0;
         }

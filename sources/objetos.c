@@ -38,7 +38,6 @@ Objeto crearObjeto(TipoObjeto tipo, int x, int y, int profundidad_actual)
             objeto.representacion = ':';
             objeto.valor = (15 + 5 * profundidad_actual); // Cura 15 de vida. Puede ser modificado por otro valor
             break;                                        // Dario: ahora le sumamos por profundidad
-            break;
 
         case OBJ_ARMA:
             objeto.representacion = ')';

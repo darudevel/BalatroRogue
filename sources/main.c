@@ -50,6 +50,8 @@ int main()
             printf("\nPresione cualquier tecla para volver al menu principal: ");
             esperarInput(&tecla);
         }
+
+
     }
 
     salirJuego(&juego);
